@@ -5,15 +5,15 @@
 # Extracted from: /tmp/tmphrd7448l.urdf
 
 PROTO baxter [
-  field  SFVec3f     translation     0 0 0
+  field  SFVec3f     translation     0 0 0.925
   field  SFRotation  rotation        0 0 1 0
-  field  SFString    name            "baxter"  # Is `Robot.name`.
-  field  SFString    controller      "<extern>"          # Is `Robot.controller`.
+  field  SFString    name            "baxter"        # Is `Robot.name`.
+  field  SFString    controller      "<extern>"      # Is `Robot.controller`.
   field  MFString    controllerArgs  []              # Is `Robot.controllerArgs`.
   field  SFString    customData      ""              # Is `Robot.customData`.
   field  SFBool      supervisor      FALSE           # Is `Robot.supervisor`.
   field  SFBool      synchronization TRUE            # Is `Robot.synchronization`.
-  field  SFBool      selfCollision   TRUE           # Is `Robot.selfCollision`.
+  field  SFBool      selfCollision   TRUE            # Is `Robot.selfCollision`.
 ]
 {
   Robot {
