@@ -12,21 +12,36 @@ find_package(geometry_msgs REQUIRED)
 find_package(webots_ros2_driver REQUIRED)
 find_package(pluginlib REQUIRED)
 
-add_executable(MyRobotDriver src/MyRobotDriver.cpp)
-target_include_directories(MyRobotDriver PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
-target_compile_features(MyRobotDriver PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
-ament_target_dependencies(
-  MyRobotDriver
-  "rclcpp"
+
+#Add Source files
+add_library(${PROJECT_NAME} SHARED
+src/first_node.cpp
+)
+
+
+#Install Dependencies
+ament_target_dependencies(${PROJECT_NAME}
+  rclcpp
+  rclcpp_components
+  rclcpp_action
+  std_msgs
   "geometry_msgs"
   "webots_ros2_driver"
   "pluginlib"
 )
 
-install(TARGETS MyRobotDriver
-  DESTINATION lib/${PROJECT_NAME})
+#Install Executables
+install(TARGETS ${PROJECT_NAME} DESTINATION lib)
+rclcpp_components_register_node(
+  ${PROJECT_NAME}
+  PLUGIN "webots_baxter::FirstNode"
+  EXECUTABLE first_node
+)
+
+# Install Launch files
+install(DIRECTORY launch config worlds DESTINATION share/${PROJECT_NAME})
+
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
