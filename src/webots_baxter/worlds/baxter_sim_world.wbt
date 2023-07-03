@@ -3,7 +3,11 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/sahilgaurkar/puzzle-solver-robot/main/src/webots_baxter/proto/baxter.proto"
+EXTERNPROTO "../proto/baxter.proto"
+
+#Proto Link on GitHub if local does not work
+#EXTERNPROTO "https://raw.githubusercontent.com/sahilgaurkar/puzzle-solver-robot/main/src/webots_baxter/proto/baxter.proto"
+
 
 WorldInfo {
 }
@@ -18,4 +22,7 @@ TexturedBackgroundLight {
 RectangleArena {
   floorSize 10 10
   floorTileSize 1 1
+}
+baxter{
+  translation 0 0 0.925
 }
