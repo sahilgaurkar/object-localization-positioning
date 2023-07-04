@@ -13,13 +13,14 @@ import rclpy
 def generate_launch_description():
     package_dir = get_package_share_directory("webots_baxter")
 
+    # NEED TO MAKE THIS A NODE
     #supervisor_obj = Supervisor()
     # baxter_node = supervisor.getFromDef("BAXTER")
     # trans_field = baxter_node.getField("translation")
     # values = trans_field.getSFVec3f()
     # print(values)
     # node = rclpy.create_node('minimal_client')
-    # node.get_logger().info(values)'''
+    # node.get_logger().info(values)
 
     # Driver nodes
     # When having multiple robot it is enough to specify the `additional_env` argument.
