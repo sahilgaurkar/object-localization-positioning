@@ -26,7 +26,7 @@ ament_target_dependencies(${PROJECT_NAME}
   rclcpp_action
   std_msgs
   "geometry_msgs"
-  "webots_ros2_driver"
+  webots_ros2_driver
   "pluginlib"
 )
 
