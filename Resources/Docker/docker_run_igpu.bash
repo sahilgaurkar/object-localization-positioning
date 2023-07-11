@@ -11,8 +11,8 @@ xhost local:$USER
 XAUTH=/home/$USER/.Xauthority
 
 
-docker run --rm -it \
-    --name=baxter_test \
+docker run -it \
+    --name=baxter-bridge \
     --env="DISPLAY=$DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
@@ -20,7 +20,7 @@ docker run --rm -it \
     --volume /home/$USER/.Xauthority:/dot.Xauthority \
     --net=host \
     --privileged \
-    baxter:noetic \
+    baxter/bridge:noetic-galactic \
     bash
 
 echo "Done."
