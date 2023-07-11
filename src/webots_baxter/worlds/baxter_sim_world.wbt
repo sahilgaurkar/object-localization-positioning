@@ -3,17 +3,14 @@
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "../proto/baxter.proto"
-
-#Proto Link on GitHub if local does not work
-#EXTERNPROTO "https://raw.githubusercontent.com/sahilgaurkar/puzzle-solver-robot/main/src/webots_baxter/proto/baxter.proto"
-
+EXTERNPROTO "/home/sahil/ws_puzzle-solver-robot/src/webots_baxter/proto/baxter.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/tables/protos/Desk.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.20017198488473506 0.6461988210467221 0.7364497675640421 0.7963306633262588
-  position -13.098818809439845 -9.021736654384089 9.082639806517603
+  orientation -0.22282023306447224 0.07766909980961081 0.9717605953483908 2.488407034146106
+  position 3.16182750639907 -2.0408309780283664 2.230086590794584
 }
 TexturedBackground {
 }
@@ -23,6 +20,9 @@ RectangleArena {
   floorSize 10 10
   floorTileSize 1 1
 }
-baxter{
+baxter {
   translation 0 0 0.925
+}
+Desk {
+  translation 0.8 0 0
 }

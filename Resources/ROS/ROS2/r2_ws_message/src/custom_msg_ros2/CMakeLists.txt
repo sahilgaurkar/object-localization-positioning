@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(webots_baxter)
+project(custom_msg_ros2)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -8,39 +8,16 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(geometry_msgs REQUIRED)
-find_package(webots_ros2_driver REQUIRED)
-find_package(pluginlib REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 
-
-#Add Source files
-add_library(${PROJECT_NAME} SHARED
-src/first_node.cpp
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/CustomMessage.msg"
 )
 
-
-#Install Dependencies
-ament_target_dependencies(${PROJECT_NAME}
-  rclcpp
-  rclcpp_components
-  rclcpp_action
-  std_msgs
-  "geometry_msgs"
-  webots_ros2_driver
-  "pluginlib"
+install(
+  FILES custom_rules.yaml
+  DESTINATION share/${PROJECT_NAME}
 )
-
-#Install Executables
-install(TARGETS ${PROJECT_NAME} DESTINATION lib)
-rclcpp_components_register_node(
-  ${PROJECT_NAME}
-  PLUGIN "webots_baxter::FirstNode"
-  EXECUTABLE first_node
-)
-
-# Install Launch files
-install(DIRECTORY launch config worlds proto DESTINATION share/${PROJECT_NAME})
-
 
 
 if(BUILD_TESTING)

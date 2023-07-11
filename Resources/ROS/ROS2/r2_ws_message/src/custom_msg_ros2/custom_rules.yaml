@@ -1,0 +1,5 @@
+-
+  ros1_message_name: CustomMessage
+  ros1_package_name: custom_msg_ros1
+  ros2_message_name: CustomeMessage
+  ros2_package_name: custom_msg_ros2
