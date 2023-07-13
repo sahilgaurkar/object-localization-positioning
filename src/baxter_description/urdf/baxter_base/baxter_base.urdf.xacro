@@ -1,55 +1,17 @@
 <?xml version="1.0" ?>
 <robot name="baxter" xmlns:xacro="http://www.ros.org/wiki/xacro">
-
-<!--  <xacro:if value="$(arg gazebo)">
-    <xacro:property name="mass_scale" value=".1"/>
+  <xacro:arg name="gazebo" default="false"/>
+  <xacro:if value="$(arg gazebo)">
+    <!-- Gazebo Tags -->
     <xacro:include filename="$(find baxter_description)/urdf/baxter_base/baxter_base.gazebo.xacro" />
   </xacro:if>
-  <xacro:unless value="$(arg gazebo)">
-    <xacro:property name="mass_scale" value=".1"/>
-  </xacro:unless>-->
-
-  <xacro:macro name="range_sensor" params="side">
- <!-- <gazebo>
-  <sensor name="range_${side}" type="gpu_lidar">
-    <pose >1 0 0 0 ${PI/2} 0</pose>
-    <topic>${side}_range</topic>
-    <update_rate>10</update_rate>
-    <ray>
-        <scan>
-<horizontal>
-                <samples>10</samples>
-                <resolution>1</resolution>
-                <min_angle>-1.396263</min_angle>
-                <max_angle>1.396263</max_angle>
-            </horizontal>
-            <vertical>
-                <samples>1</samples>
-                <resolution>0.01</resolution>
-                <min_angle>0</min_angle>
-                <max_angle>0</max_angle>
-            </vertical>
-        </scan>
-        <range>
-            <min>0.1</min>
-            <max>1.</max>
-            <resolution>0.01</resolution>
-        </range>
-    </ray>
-    <always_on>1</always_on>
-    <visualize>true</visualize>
-</sensor>
-</gazebo>-->
-</xacro:macro>
-
-
   <link name="base">
   </link>
   <link name="torso">
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/torso/base_link.DAE"/>
+        <mesh filename="package://baxter_description/meshes/torso/base_link.DAE"/>
       </geometry>
       <material name="darkgray">
         <color rgba=".2 .2 .2 1"/>
@@ -58,7 +20,7 @@
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/torso/base_link_collision.DAE"/>
+        <mesh filename="package://baxter_description/meshes/torso/base_link_collision.DAE"/>
       </geometry>
     </collision>
     <inertial>
@@ -85,7 +47,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 .00953"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/head/H0.DAE"/>
+        <mesh filename="package://baxter_description/meshes/head/H0.DAE"/>
       </geometry>
       <material name="darkgray">
         <color rgba=".2 .2 .2 1"/>
@@ -129,7 +91,7 @@
     <visual>
       <origin rpy="0 -1.57079632679 0" xyz="0 -.00953 -.0347"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/head/H1.DAE"/>
+        <mesh filename="package://baxter_description/meshes/head/H1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -265,7 +227,7 @@
     <parent link="head"/>
     <child link="screen"/>
   </joint>
-  <joint name="head_camera_fixed" type="fixed">
+  <joint name="head_camera" type="fixed">
     <origin rpy="1.75057 0 1.57079632679" xyz="0.12839 0 0.06368"/>
     <parent link="head"/>
     <child link="head_camera"/>
@@ -293,7 +255,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/upper_shoulder/S0.DAE"/>
+        <mesh filename="package://baxter_description/meshes/upper_shoulder/S0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -315,7 +277,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/lower_shoulder/S1.DAE"/>
+        <mesh filename="package://baxter_description/meshes/lower_shoulder/S1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -337,7 +299,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/upper_elbow/E0.DAE"/>
+        <mesh filename="package://baxter_description/meshes/upper_elbow/E0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -372,7 +334,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/lower_elbow/E1.DAE"/>
+        <mesh filename="package://baxter_description/meshes/lower_elbow/E1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -394,7 +356,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/upper_forearm/W0.DAE"/>
+        <mesh filename="package://baxter_description/meshes/upper_forearm/W0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -436,7 +398,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/lower_forearm/W1.DAE"/>
+        <mesh filename="package://baxter_description/meshes/lower_forearm/W1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -458,7 +420,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/wrist/W2.DAE"/>
+        <mesh filename="package://baxter_description/meshes/wrist/W2.DAE"/>
       </geometry>
       <material name="lightgrey">
         <color rgba=".1 .1 .1 1"/>
@@ -527,7 +489,6 @@
       <mass value="0.0001"/>
       <inertia ixx="1e-08" ixy="0" ixz="0" iyy="1e-08" iyz="0" izz="1e-08"/>
     </inertial>
-    <xacro:range_sensor side="right"/>
   </link>
   <link name="right_hand_accelerometer">
     <visual>
@@ -624,28 +585,28 @@
     <limit effort="15.0" lower="-3.059" upper="3.059" velocity="4.0"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
-  <joint name="right_hand_fixed" type="fixed">
+  <joint name="right_hand" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0.11355"/>
     <axis xyz="0 0 1"/>
     <parent link="right_wrist"/>
     <child link="right_hand"/>
   </joint>
-  <joint name="right_hand_camera_fixed" type="fixed">
+  <joint name="right_hand_camera" type="fixed">
     <origin rpy="0 0 -1.57079633" xyz="0.03825 0.012 0.015355"/>
     <parent link="right_hand"/>
     <child link="right_hand_camera"/>
   </joint>
-  <joint name="right_hand_camera_axis_fixed" type="fixed">
+  <joint name="right_hand_camera_axis" type="fixed">
     <origin rpy="0 0 0" xyz="0.03825 0.012 0.015355"/>
     <parent link="right_hand"/>
     <child link="right_hand_camera_axis"/>
   </joint>
-  <joint name="right_hand_range_fixed" type="fixed">
+  <joint name="right_hand_range" type="fixed">
     <origin rpy="0 -1.57079632679 -1.57079632679" xyz="0.032 -0.020245 0.0288"/>
     <parent link="right_hand"/>
     <child link="right_hand_range"/>
   </joint>
-  <joint name="right_hand_accelerometer_fixed" type="fixed">
+  <joint name="right_hand_accelerometer" type="fixed">
     <origin rpy="0 0 0" xyz="0.00198 0.000133 -0.0146"/>
     <parent link="right_hand"/>
     <child link="right_hand_accelerometer"/>
@@ -662,7 +623,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/upper_shoulder/S0.DAE"/>
+        <mesh filename="package://baxter_description/meshes/upper_shoulder/S0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -684,7 +645,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/lower_shoulder/S1.DAE"/>
+        <mesh filename="package://baxter_description/meshes/lower_shoulder/S1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -706,7 +667,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/upper_elbow/E0.DAE"/>
+        <mesh filename="package://baxter_description/meshes/upper_elbow/E0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -741,7 +702,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/lower_elbow/E1.DAE"/>
+        <mesh filename="package://baxter_description/meshes/lower_elbow/E1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -763,7 +724,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/upper_forearm/W0.DAE"/>
+        <mesh filename="package://baxter_description/meshes/upper_forearm/W0.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -805,7 +766,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/lower_forearm/W1.DAE"/>
+        <mesh filename="package://baxter_description/meshes/lower_forearm/W1.DAE"/>
       </geometry>
       <material name="darkred">
         <color rgba=".5 .1 .1 1"/>
@@ -827,7 +788,7 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="file://$(find baxter_description)/meshes/wrist/W2.DAE"/>
+        <mesh filename="package://baxter_description/meshes/wrist/W2.DAE"/>
       </geometry>
       <material name="lightgrey">
         <color rgba=".1 .1 .1 1"/>
@@ -912,7 +873,6 @@
       <mass value="0.0001"/>
       <inertia ixx="1e-08" ixy="0" ixz="0" iyy="1e-08" iyz="0" izz="1e-08"/>
     </inertial>
-    <xacro:range_sensor side="left"/>
   </link>
   <joint name="left_torso_arm_mount" type="fixed">
     <origin rpy="0 0 0.7854" xyz="0.024645 0.219645 0.118588"/>
@@ -993,28 +953,28 @@
     <limit effort="15.0" lower="-3.059" upper="3.059" velocity="4.0"/>
     <dynamics damping="0.7" friction="0.0"/>
   </joint>
-  <joint name="left_hand_fixed" type="fixed">
+  <joint name="left_hand" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0.11355"/>
     <axis xyz="0 0 1"/>
     <parent link="left_wrist"/>
     <child link="left_hand"/>
   </joint>
-  <joint name="left_hand_camera_fixed" type="fixed">
+  <joint name="left_hand_camera" type="fixed">
     <origin rpy="0 0 -1.57079633" xyz="0.03825 0.012 0.015355"/>
     <parent link="left_hand"/>
     <child link="left_hand_camera"/>
   </joint>
-  <joint name="left_hand_camera_axis_fixed" type="fixed">
+  <joint name="left_hand_camera_axis" type="fixed">
     <origin rpy="0 0 0" xyz="0.03825 0.012 0.015355"/>
     <parent link="left_hand"/>
     <child link="left_hand_camera_axis"/>
   </joint>
-  <joint name="left_hand_range_fixed" type="fixed">
+  <joint name="left_hand_range" type="fixed">
     <origin rpy="0 -1.57079632679 -1.57079632679" xyz="0.032 -0.020245 0.0288"/>
     <parent link="left_hand"/>
     <child link="left_hand_range"/>
   </joint>
-  <joint name="left_hand_accelerometer_fixed" type="fixed">
+  <joint name="left_hand_accelerometer" type="fixed">
     <origin rpy="0 0 0" xyz="0.00198 0.000133 -0.0146"/>
     <parent link="left_hand"/>
     <child link="left_hand_accelerometer"/>

@@ -17,6 +17,8 @@
   <depend>geometry_msgs</depend>
   <depend>webots_ros2_driver</depend>
   <depend>pluginlib</depend>
+  <depend>baxter_description</depend>
+  <depend>rethink_ee_description</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
