@@ -23,8 +23,8 @@ from launch_ros.actions import Node
 from launch import LaunchDescription
 from ament_index_python.packages import get_package_share_directory
 from webots_ros2_driver.urdf_spawner import URDFSpawner, get_webots_driver_node
-#from webots_ros2_driver.webots_controller import WebotsController
-from webots_ros2_driver.utils import controller_url_prefix
+from webots_ros2_driver.webots_controller import WebotsController
+#from webots_ros2_driver.utils import controller_url_prefix
 
 
 PACKAGE_NAME = 'baxter_webots'
@@ -41,7 +41,7 @@ def generate_launch_description():
 
     # Driver nodes
     # When having multiple robot it is mandatory to specify the robot name.
-    '''universal_robot_driver = WebotsController(
+    universal_robot_driver = WebotsController(
         robot_name='UR5e',
         parameters=[
             {'robot_description': robot_description_path},
@@ -49,26 +49,26 @@ def generate_launch_description():
             {'set_robot_state_publisher': True},
             ros2_control_params
         ]
-    )'''
-
-    universal_robot_driver = Node(
-        package='webots_ros2_driver',
-        executable='driver',
-        output='screen',
-        additional_env={'WEBOTS_CONTROLLER_URL': controller_url_prefix() + 'baxter'},
-        parameters=[
-            {'robot_description': robot_description},
-            {'use_sim_time': True},
-            ros2_control_params
-        ],
     )
+
+    # universal_robot_driver = Node(
+    #     package='webots_ros2_driver',
+    #     executable='driver',
+    #     output='screen',
+    #     additional_env={'WEBOTS_CONTROLLER_URL': controller_url_prefix() + 'baxter'},
+    #     parameters=[
+    #         {'robot_description': robot_description},
+    #         {'use_sim_time': True},
+    #         ros2_control_params
+    #     ],
+    # )
 
     # Other ROS 2 nodes
     controller_manager_timeout = ['--controller-manager-timeout', '100']
     controller_manager_prefix = 'python.exe' if os.name == 'nt' else ''
     trajectory_controller_spawner = Node(
         package='controller_manager',
-        executable='spawner.py',
+        executable='spawner',
         output='screen',
         prefix=controller_manager_prefix,
         arguments=['baxter_joint_trajectory_controller'] + controller_manager_timeout,
@@ -76,7 +76,7 @@ def generate_launch_description():
 
     joint_state_broadcaster_spawner = Node(
         package='controller_manager',
-        executable='spawner.py',
+        executable='spawner',
         output='screen',
         prefix=controller_manager_prefix,
         arguments=['baxter_joint_state_broadcaster'] + controller_manager_timeout,
@@ -97,6 +97,7 @@ def generate_launch_description():
         robot_state_publisher,
         trajectory_controller_spawner,
         joint_state_broadcaster_spawner,
+        
         #universal_robot_driver,
         # Launch the driver node once the URDF robot is spawned
         launch.actions.RegisterEventHandler(
