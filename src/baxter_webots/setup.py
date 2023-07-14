@@ -13,6 +13,7 @@ data_files.append(('share/' + package_name + '/launch', [
 data_files.append(('share/' + package_name + '/worlds', [
     'worlds/baxter_sim_world.wbt',
     'worlds/.baxter_sim_world.wbproj',
+    'worlds/sim_world.wbt',
 ]))
 data_files.append(('share/' + package_name, [
     'package.xml'

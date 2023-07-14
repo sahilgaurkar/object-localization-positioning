@@ -41,7 +41,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
             'world',
-            default_value='baxter_sim_world.wbt',
+            default_value='sim_world.wbt',
             description='Choose one of the world files from `/webots_ros2_universal_robot/worlds` directory'
         ),
         webots,

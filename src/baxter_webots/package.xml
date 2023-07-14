@@ -12,8 +12,6 @@
   <test_depend>ament_pep257</test_depend>
   <test_depend>python3-pytest</test_depend>
 
-  <!-- <depend>webots_ros2_driver</depend> -->
-  <!-- <depend>controller_manager</depend> -->
 
   <exec_depend>rclpy</exec_depend>
   <exec_depend>builtin_interfaces</exec_depend>
@@ -27,6 +25,7 @@
   <exec_depend>joint_trajectory_controller</exec_depend>
   <exec_depend>joint_state_broadcaster</exec_depend>
   <exec_depend>xacro</exec_depend>
+  <exec_depend>baxter_description</exec_depend>
 
   <export>
     <build_type>ament_python</build_type>
