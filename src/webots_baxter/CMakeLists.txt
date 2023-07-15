@@ -39,7 +39,7 @@ rclcpp_components_register_node(
 )
 
 # Install Launch files
-install(DIRECTORY launch config worlds proto resources DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY launch config worlds proto resource DESTINATION share/${PROJECT_NAME})
 
 
 
