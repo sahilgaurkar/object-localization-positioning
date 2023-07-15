@@ -38,8 +38,8 @@ def generate_launch_description():
         package_dir, "config", "ros2_control_config.yaml"
     )
 
-    baxter_urdf_path = os.path.join(package_dir, "resource", "urdf", "baxter.urdf")
-    baxter_urdf_description = pathlib.Path(baxter_urdf_path).read_text()
+    #baxter_urdf_path = os.path.join(package_dir, "resource", "urdf", "baxter.urdf")
+    #baxter_urdf_description = pathlib.Path(baxter_urdf_path).read_text()
 
     baxter_xacro_path = os.path.join(package_dir, "resource", "urdf", "custom.xacro")
     baxter_xacro_description = xacro.process_file(baxter_xacro_path, mappings={'name': 'baxter'}).toxml()

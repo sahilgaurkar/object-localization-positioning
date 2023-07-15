@@ -26,39 +26,41 @@ GOAL = {
         'right_e1',
         'right_w0',
         'right_w1',
-        'right_w2'
+        'right_w2',
+        'r_gripper_l_finger_joint',
+        'r_gripper_r_finger_joint',
     ],
     'points': [
         {
-            'positions': [1.0, 0.0, 0.0, 0.0, 0, 0, 0],
+            'positions': [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             'time_from_start': {'sec': 0, 'nanosec': 0}
         },
         {
-            'positions': [0.0, 0.0, 0.0, 0.0, 0, 0, 0],
+            'positions': [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             'time_from_start': {'sec': 3, 'nanosec': 0}
         },
         {
-            'positions': [1.0, 0.0, 0.0, 0.0, 0, 0, 0],
+            'positions': [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             'time_from_start': {'sec': 4, 'nanosec': 0}
         },
         {
-            'positions': [0.0, 0.0, 0.0, 0.0, 0, 0, 0],
+            'positions': [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             'time_from_start': {'sec': 5, 'nanosec': 0}
         },
         {
-            'positions': [1.0, 0.0, 0.0, 0.0, 0, 0, 0],
+            'positions': [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             'time_from_start': {'sec': 6, 'nanosec': 0}
         },
         {
-            'positions': [0.0, 0.0, 0.0, 0.0, 0, 0, 0],
+            'positions': [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             'time_from_start': {'sec': 7, 'nanosec': 0}
         },
         {
-            'positions': [1.0, 0.0, 0.0, 0.0, 0, 0, 0],
+            'positions': [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             'time_from_start': {'sec': 8, 'nanosec': 0}
         },
         {
-            'positions': [0.0, 0.0, 0.0, 0.0, 0, 0, 0],
+            'positions': [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
             'time_from_start': {'sec': 9, 'nanosec': 0}
         }
     ]

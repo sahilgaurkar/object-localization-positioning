@@ -18,6 +18,8 @@ baxter/baxter_joint_trajectory_controller:
       - right_w0
       - right_w1
       - right_w2
+      - r_gripper_l_finger_joint
+      - r_gripper_r_finger_joint
 
     command_interfaces:
       - position
