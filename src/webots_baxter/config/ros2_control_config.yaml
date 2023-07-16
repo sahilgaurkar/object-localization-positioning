@@ -1,4 +1,4 @@
-baxter/controller_manager:
+controller_manager:
   ros__parameters:
     update_rate: 50
 
@@ -8,7 +8,7 @@ baxter/controller_manager:
     baxter_joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-baxter/baxter_joint_trajectory_controller:
+baxter_joint_trajectory_controller:
   ros__parameters:
     joints:
       - right_s0

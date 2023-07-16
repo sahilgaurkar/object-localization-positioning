@@ -7,7 +7,7 @@
     </webots>
 
     <xacro:property name="initial_positions_file" value="$(find webots_baxter)/config/initial_positions.yaml" />
-    <xacro:property name="initial_positions" value="${load_yaml(initial_positions_file)}" />
+    <xacro:property name="initial_positions" value="${xacro.load_yaml(initial_positions_file)}" />
 
     <!-- Baxter Ros2 Control -->
     <xacro:include filename="$(find baxter_description)/urdf/baxter_base/baxter_base.webots.xacro" />

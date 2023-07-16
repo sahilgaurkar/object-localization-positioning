@@ -38,20 +38,12 @@ def generate_launch_description():
         package_dir, "config", "ros2_control_config.yaml"
     )
 
-    #baxter_urdf_path = os.path.join(package_dir, "resource", "urdf", "baxter.urdf")
-    #baxter_urdf_description = pathlib.Path(baxter_urdf_path).read_text()
-
-    baxter_xacro_path = os.path.join(package_dir, "resource", "urdf", "custom.xacro")
-    baxter_xacro_description = xacro.process_file(baxter_xacro_path, mappings={'name': 'baxter'}).toxml()
+    baxter_xacro_path = os.path.join(package_dir, "resource", "urdf", "baxter_webots.xacro")
+    baxter_xacro_description = xacro.process_file(baxter_xacro_path).toxml()
     
-    # Write the XML string to a file
-    with open('output.urdf', 'w') as f:
-        f.write(baxter_xacro_description)
-
-
 
     spawn_URDF_baxter = URDFSpawner(
-        name="baxter",
+        name="Baxter",
         robot_description=baxter_xacro_description,
         translation="0 0 0.925",
         rotation="0 0 1 0",
@@ -59,9 +51,9 @@ def generate_launch_description():
 
     # Driver nodes
     # When having multiple robot it is mandatory to specify the robot name.
-    universal_robot_driver = WebotsController(
-        robot_name="baxter",
-        namespace="baxter",
+    baxter_robot_driver = WebotsController(
+        robot_name="Baxter",
+        # namespace="baxter",
         parameters=[
             {"robot_description": baxter_xacro_path},
             {"use_sim_time": True},
@@ -80,8 +72,8 @@ def generate_launch_description():
         prefix=controller_manager_prefix,
         arguments=[
             "baxter_joint_trajectory_controller",
-            "-c",
-            "baxter/controller_manager",
+            # "-c",
+            # "baxter/controller_manager",
         ]
         + controller_manager_timeout,
     )
@@ -91,7 +83,10 @@ def generate_launch_description():
         executable="spawner",
         output="screen",
         prefix=controller_manager_prefix,
-        arguments=["baxter_joint_state_broadcaster", "-c", "baxter/controller_manager"]
+        arguments=["baxter_joint_state_broadcaster", 
+                #    "-c", 
+                #    "baxter/controller_manager"
+        ]
         + controller_manager_timeout,
     )
 
@@ -99,7 +94,7 @@ def generate_launch_description():
         package="robot_state_publisher",
         executable="robot_state_publisher",
         output="screen",
-        parameters=[{"robot_description": '<robot name=""><link name=""/></robot>'}],
+        parameters=[{"robot_description": baxter_xacro_description}],
     )
 
     return LaunchDescription(
@@ -109,20 +104,19 @@ def generate_launch_description():
             robot_state_publisher,
             trajectory_controller_spawner,
             joint_state_broadcaster_spawner,
-            # universal_robot_driver,
             # Launch the driver node once the URDF robot is spawned
             launch.actions.RegisterEventHandler(
                 event_handler=launch.event_handlers.OnProcessIO(
                     target_action=spawn_URDF_baxter,
                     on_stdout=lambda event: get_webots_driver_node(
-                        event, universal_robot_driver
+                        event, baxter_robot_driver
                     ),
                 )
             ),
             # Kill all the nodes when the driver node is shut down
             launch.actions.RegisterEventHandler(
                 event_handler=launch.event_handlers.OnProcessExit(
-                    target_action=universal_robot_driver,
+                    target_action=baxter_robot_driver,
                     on_exit=[launch.actions.EmitEvent(event=launch.events.Shutdown())],
                 )
             ),
