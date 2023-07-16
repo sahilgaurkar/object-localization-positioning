@@ -15,3 +15,12 @@ baxter_joint_trajectory_controller:
     - right_w2
     - r_gripper_l_finger_joint
     - r_gripper_r_finger_joint
+    - left_s0
+    - left_s1
+    - left_e0
+    - left_e1
+    - left_w0
+    - left_w1
+    - left_w2
+    - l_gripper_l_finger_joint
+    - l_gripper_r_finger_joint
