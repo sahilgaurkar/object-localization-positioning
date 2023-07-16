@@ -22,6 +22,7 @@ import launch
 import xacro
 from launch_ros.actions import Node
 from launch import LaunchDescription
+from launch.substitutions import Command
 from ament_index_python.packages import get_package_share_directory
 from webots_ros2_driver.urdf_spawner import URDFSpawner, get_webots_driver_node
 from webots_ros2_driver.webots_controller import WebotsController
@@ -94,7 +95,7 @@ def generate_launch_description():
         package="robot_state_publisher",
         executable="robot_state_publisher",
         output="screen",
-        parameters=[{"robot_description": baxter_xacro_description}],
+        parameters=[{'use_sim_time': True, "robot_description": baxter_xacro_description}]
     )
 
     return LaunchDescription(
