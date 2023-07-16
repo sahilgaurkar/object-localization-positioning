@@ -41,12 +41,22 @@ def generate_launch_description():
 
     baxter_xacro_path = os.path.join(package_dir, "resource", "urdf", "baxter_webots.xacro")
     baxter_xacro_description = xacro.process_file(baxter_xacro_path).toxml()
+
+
+        # Write the XML string to a file
+    with open('output.urdf', 'w') as f:
+        f.write(baxter_xacro_description)
+
+
+    baxter_urdf_path = os.path.join("baxter.urdf")
+    with open(baxter_urdf_path, 'r') as infp:
+        robot_desc = infp.read()
     
 
     spawn_URDF_baxter = URDFSpawner(
         name="Baxter",
         robot_description=baxter_xacro_description,
-        translation="0 0 0.925",
+        translation="0 0 0",
         rotation="0 0 1 0",
     )
 
@@ -94,8 +104,9 @@ def generate_launch_description():
     robot_state_publisher = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
+        #name="robot_state_publisher",
         output="screen",
-        parameters=[{'use_sim_time': True, "robot_description": baxter_xacro_description}]
+        parameters=[{"use_sim_time": True, "robot_description": baxter_xacro_description}]
     )
 
     return LaunchDescription(
@@ -105,7 +116,6 @@ def generate_launch_description():
             robot_state_publisher,
             trajectory_controller_spawner,
             joint_state_broadcaster_spawner,
-            # Launch the driver node once the URDF robot is spawned
             launch.actions.RegisterEventHandler(
                 event_handler=launch.event_handlers.OnProcessIO(
                     target_action=spawn_URDF_baxter,
