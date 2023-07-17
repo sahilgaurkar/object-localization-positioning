@@ -7,6 +7,7 @@ EXTERNPROTO "/home/sahil/ws_puzzle-solver-robot/src/webots_baxter/proto/baxter.p
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/tables/protos/Desk.proto"
 
 WorldInfo {
+  basicTimeStep 20
 }
 Viewpoint {
   orientation -0.22282023306447224 0.07766909980961081 0.9717605953483908 2.488407034146106

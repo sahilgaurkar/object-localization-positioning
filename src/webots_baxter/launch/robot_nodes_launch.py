@@ -43,14 +43,14 @@ def generate_launch_description():
     baxter_xacro_description = xacro.process_file(baxter_xacro_path).toxml()
 
 
-        # Write the XML string to a file
-    with open('output.urdf', 'w') as f:
-        f.write(baxter_xacro_description)
+    #     # Write the XML string to a file
+    # with open('output.urdf', 'w') as f:
+    #     f.write(baxter_xacro_description)
 
 
-    baxter_urdf_path = os.path.join("baxter.urdf")
-    with open(baxter_urdf_path, 'r') as infp:
-        robot_desc = infp.read()
+    # baxter_urdf_path = os.path.join("output.urdf")
+    # with open(baxter_urdf_path, 'r') as infp:
+    #     robot_desc = infp.read()
     
 
     spawn_URDF_baxter = URDFSpawner(
@@ -64,11 +64,10 @@ def generate_launch_description():
     # When having multiple robot it is mandatory to specify the robot name.
     baxter_robot_driver = WebotsController(
         robot_name="Baxter",
-        # namespace="baxter",
         parameters=[
             {"robot_description": baxter_xacro_path},
             {"use_sim_time": True},
-            {"set_robot_state_publisher": True},
+            {"set_robot_state_publisher": False},
             ros2_control_params,
         ],
     )
@@ -82,10 +81,7 @@ def generate_launch_description():
         output="screen",
         prefix=controller_manager_prefix,
         arguments=[
-            "baxter_joint_trajectory_controller",
-            # "-c",
-            # "baxter/controller_manager",
-        ]
+            "baxter_joint_trajectory_controller"]
         + controller_manager_timeout,
     )
 
@@ -94,17 +90,13 @@ def generate_launch_description():
         executable="spawner",
         output="screen",
         prefix=controller_manager_prefix,
-        arguments=["baxter_joint_state_broadcaster", 
-                #    "-c", 
-                #    "baxter/controller_manager"
-        ]
+        arguments=["baxter_joint_state_broadcaster"]
         + controller_manager_timeout,
     )
 
     robot_state_publisher = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        #name="robot_state_publisher",
         output="screen",
         parameters=[{"use_sim_time": True, "robot_description": baxter_xacro_description}]
     )

@@ -29,6 +29,7 @@ baxter_joint_trajectory_controller:
       - left_w2
       - l_gripper_l_finger_joint
       - l_gripper_r_finger_joint
+      - head_pan
 
     command_interfaces:
       - position
