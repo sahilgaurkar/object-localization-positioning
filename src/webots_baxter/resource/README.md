@@ -1,0 +1,1 @@
+This folder contatins URDF/XACRO files used to generate PROTO

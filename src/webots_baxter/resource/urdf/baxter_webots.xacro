@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<robot name="baxter" xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <!-- Custom Baxter Xacro-->
+    <webots>
+        <plugin type="webots_ros2_control::Ros2Control" />
+    </webots>
+
+    <xacro:property name="initial_positions_file"
+        value="$(find webots_baxter)/config/initial_positions.yaml" />
+    <xacro:property name="initial_positions" value="${xacro.load_yaml(initial_positions_file)}" />
+
+    <!-- Baxter Ros2 Control -->
+    <xacro:include filename="$(find baxter_description)/urdf/baxter_base/baxter_base.webots.xacro" />
+
+    <ros2_control name="WebotsControl" type="system">
+        <xacro:ros2_control prefix='right' initial_positions="${initial_positions}" />
+        <xacro:ros2_control prefix='left' initial_positions="${initial_positions}" />
+    </ros2_control>
+
+    <!-- baxter robot -->
+    <xacro:include filename="$(find baxter_description)/urdf/baxter.urdf.xacro" />
+
+
+</robot>

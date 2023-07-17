@@ -1,0 +1,3 @@
+[submodule "src/baxter-messages-ros2"]
+	path = src/baxter-messages-ros2
+	url = git@github.com:sahilgaurkar/baxter-messages-ros2.git

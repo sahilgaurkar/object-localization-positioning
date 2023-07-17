@@ -1,0 +1,39 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 50
+
+    baxter_joint_trajectory_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    baxter_joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+baxter_joint_trajectory_controller:
+  ros__parameters:
+    joints:
+      - right_s0
+      - right_s1
+      - right_e0
+      - right_e1
+      - right_w0
+      - right_w1
+      - right_w2
+      - r_gripper_l_finger_joint
+      - r_gripper_r_finger_joint
+      - left_s0
+      - left_s1
+      - left_e0
+      - left_e1
+      - left_w0
+      - left_w1
+      - left_w2
+      - l_gripper_l_finger_joint
+      - l_gripper_r_finger_joint
+      - head_pan
+
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+
+    allow_partial_joints_goal: true

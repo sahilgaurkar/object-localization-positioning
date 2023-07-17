@@ -11,8 +11,8 @@ xhost local:$USER
 XAUTH=/home/$USER/.Xauthority
 
 
-docker run -it \
-    --name=baxter-bridge \
+docker run --rm -it \
+    --name=webots_test \
     --env="DISPLAY=$DISPLAY" \
     --env="QT_X11_NO_MITSHM=1" \
     --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
@@ -20,7 +20,7 @@ docker run -it \
     --volume /home/$USER/.Xauthority:/dot.Xauthority \
     --net=host \
     --privileged \
-    baxter/bridge:noetic-galactic \
+    osrf/ros:humble-desktop-full \
     bash
 
 echo "Done."

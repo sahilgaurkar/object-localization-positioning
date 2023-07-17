@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="ros2_control"
+    params="prefix initial_positions">
+
+
+    <hardware>
+      <plugin>webots_ros2_control::Ros2ControlSystem</plugin>
+    </hardware>
+    <joint name="${prefix}_s0">
+      <command_interface name="position">
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+      <param name="initial_position">${initial_positions[prefix + '_s0']}</param>  <!-- initial
+        position
+        for the FakeSystem -->
+    </joint>
+    <joint name="${prefix}_s1">
+      <command_interface name="position">
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+      <param name="initial_position">${initial_positions[prefix + '_s1']}</param>  <!-- initial
+        position
+        for the FakeSystem -->
+    </joint>
+    <joint name="${prefix}_e0">
+      <command_interface name="position">
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+      <param name="initial_position">${initial_positions[prefix + '_e0']}</param>  <!-- initial
+        position
+        for the FakeSystem -->
+    </joint>
+    <joint name="${prefix}_e1">
+      <command_interface name="position">
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+      <param name="initial_position">${initial_positions[prefix + '_e1']}</param>  <!-- initial
+        position
+        for the FakeSystem -->
+    </joint>
+    <joint name="${prefix}_w0">
+      <command_interface name="position">
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+      <param name="initial_position">${initial_positions[prefix + '_w0']}</param>  <!-- initial
+        position
+        for the FakeSystem -->
+    </joint>
+    <joint name="${prefix}_w1">
+      <command_interface name="position">
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+      <param name="initial_position">${initial_positions[prefix + '_w1']}</param>  <!-- initial
+        position
+        for the FakeSystem -->
+    </joint>
+    <joint name="${prefix}_w2">
+      <command_interface name="position">
+      </command_interface>
+      <state_interface name="position" />
+      <state_interface name="velocity" />
+      <state_interface name="effort" />
+      <param name="initial_position">${initial_positions[prefix + '_w2']}</param>  <!-- initial
+        position
+        for the FakeSystem -->
+    </joint>
+
+<!-- Adding Control for HeadPan -->
+    <xacro:if value="${prefix == 'right'}">
+      <joint name="head_pan">
+        <command_interface name="position">
+        </command_interface>
+        <state_interface name="position" />
+        <state_interface name="velocity" />
+        <state_interface name="effort" />
+        <param name="initial_position">${initial_positions['head_pan']}</param>  <!-- initial
+        position
+        for the FakeSystem -->
+      </joint>
+    </xacro:if>
+
+
+    <!-- Baxter Electric EE -->
+
+    <xacro:if value="${prefix == 'right'}">
+      <joint name="r_gripper_l_finger_joint">
+        <state_interface name="position" />
+        <command_interface name="position" />
+      </joint>
+      <joint name="r_gripper_r_finger_joint">
+        <state_interface name="position" />
+        <command_interface name="position" />
+      </joint>
+    </xacro:if>
+
+    <xacro:if value="${prefix == 'left'}">
+      <joint name="l_gripper_l_finger_joint">
+        <state_interface name="position" />
+        <command_interface name="position" />
+      </joint>
+      <joint name="l_gripper_r_finger_joint">
+        <state_interface name="position" />
+        <command_interface name="position" />
+      </joint>
+    </xacro:if>
+
+
+  </xacro:macro>
+
+</robot>
