@@ -1,0 +1,81 @@
+# This config file is used by ros2_control
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
+
+    left_arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+    right_arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+    left_ee_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+    right_ee_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+    head_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+left_arm_controller:
+  ros__parameters:
+    joints:
+      - left_s0
+      - left_s1
+      - left_e0
+      - left_e1
+      - left_w0
+      - left_w1
+      - left_w2
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+right_arm_controller:
+  ros__parameters:
+    joints:
+      - right_s0
+      - right_s1
+      - right_e0
+      - right_e1
+      - right_w0
+      - right_w1
+      - right_w2
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+left_ee_controller:
+  ros__parameters:
+    joint: l_gripper_l_finger_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+right_ee_controller:
+  ros__parameters:
+    joint: r_gripper_l_finger_joint
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+head_controller:
+  ros__parameters:
+    joint: head_pan
+    command_interfaces:
+      []
+    state_interfaces:
+      []

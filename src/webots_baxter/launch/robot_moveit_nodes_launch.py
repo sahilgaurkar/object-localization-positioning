@@ -19,6 +19,7 @@
 import os
 import pathlib
 import yaml
+import xacro
 from launch.actions import IncludeLaunchDescription, LogInfo
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch import LaunchDescription
@@ -33,17 +34,20 @@ def generate_launch_description():
     launch_description_nodes = []
     package_dir = get_package_share_directory(PACKAGE_NAME)
 
+    baxter_xacro_path = os.path.join(package_dir, "resource", "urdf", "baxter_webots.xacro")
+    baxter_xacro_description = xacro.process_file(baxter_xacro_path).toxml()
+
     def load_file(filename):
         return pathlib.Path(os.path.join(package_dir, 'resource', filename)).read_text()
 
     def load_yaml(filename):
-        return yaml.safe_load(load_file(filename))
+        return yaml.safe_load(pathlib.Path(os.path.join(package_dir, 'config', filename)).read_text())
 
     # Check if moveit is installed
     if 'moveit' in get_packages_with_prefixes():
         # Configuration
-        description = {'robot_description': load_file('baxter.urdf')}
-        description_semantic = {'robot_description_semantic': load_file('baxter.srdf')}
+        description = {'robot_description': baxter_xacro_description}
+        description_semantic = {'robot_description_semantic': load_file('moveit_baxter.srdf')}
         description_kinematics = {'robot_description_kinematics': load_yaml('moveit_kinematics.yaml')}
         sim_time = {'use_sim_time': True}
 
