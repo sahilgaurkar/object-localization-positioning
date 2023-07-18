@@ -1,16 +1,16 @@
 # Default initial positions for the baxter arms ros2_control fake system
 
 initial_positions:
-  right_s0: 1.0
-  right_s1: 0.0
+  right_s0: 0.0
+  right_s1: 0.5
   right_e0: 0.0
   right_e1: 0.0
-  right_w0: 0.0
+  right_w0: 0.5
   right_w1: 0.0
   right_w2: 0.0
   r_gripper_l_finger_joint: 0.0
   r_gripper_r_finger_joint: 0.0
-  left_s0: 1.0
+  left_s0: 0.0
   left_s1: 0.0
   left_e0: 0.0
   left_e1: 0.0

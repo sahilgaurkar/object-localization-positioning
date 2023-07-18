@@ -38,7 +38,11 @@ def generate_launch_description():
     baxter_xacro_description = xacro.process_file(baxter_xacro_path).toxml()
 
     def load_file(filename):
-        return pathlib.Path(os.path.join(package_dir, 'resource', filename)).read_text()
+        return pathlib.Path(os.path.join(package_dir, 'resource', filename))
+    
+    def load_srdf(filename):
+        path = pathlib.Path(os.path.join(package_dir, 'config', 'srdf', filename))
+        return xacro.process_file(path).toxml()
 
     def load_yaml(filename):
         return yaml.safe_load(pathlib.Path(os.path.join(package_dir, 'config', filename)).read_text())
@@ -47,7 +51,7 @@ def generate_launch_description():
     if 'moveit' in get_packages_with_prefixes():
         # Configuration
         description = {'robot_description': baxter_xacro_description}
-        description_semantic = {'robot_description_semantic': load_file('moveit_baxter.srdf')}
+        description_semantic = {'robot_description_semantic': load_srdf('baxter.srdf.xacro')}
         description_kinematics = {'robot_description_kinematics': load_yaml('moveit_kinematics.yaml')}
         sim_time = {'use_sim_time': True}
 
@@ -96,6 +100,12 @@ def generate_launch_description():
         launch_description_nodes.append(
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(os.path.join(package_dir, 'launch', 'robot_nodes_launch.py'))
+            )
+        )
+
+        launch_description_nodes.append(
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(os.path.join(package_dir, 'launch', 'robot_world_launch.py'))
             )
         )
     else:

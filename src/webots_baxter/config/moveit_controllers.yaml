@@ -1,10 +1,4 @@
-
 controller_names:
-  - left_arm_controller
-  - right_arm_controller
-  - left_ee_controller
-  - right_ee_controller
-  - head_controller
   - baxter_joint_trajectory_controller
 
 baxter_joint_trajectory_controller:
@@ -19,12 +13,6 @@ baxter_joint_trajectory_controller:
     - left_w0
     - left_w1
     - left_w2
-
-right_arm_controller:
-  type: FollowJointTrajectory
-  action_ns: follow_joint_trajectory
-  default: true
-  joints:
     - right_s0
     - right_s1
     - right_e0
@@ -32,24 +20,8 @@ right_arm_controller:
     - right_w0
     - right_w1
     - right_w2
-
-left_ee_controller:
-  type: GripperCommand
-  joints:
-    - l_gripper_l_finger_joint
-  action_ns: gripper_cmd
-  default: true
-
-right_ee_controller:
-  type: GripperCommand
-  joints:
-    - r_gripper_l_finger_joint
-  action_ns: gripper_cmd
-  default: true
-
-head_controller:
-  type: FollowJointTrajectory
-  action_ns: follow_joint_trajectory
-  default: true
-  joints:
     - head_pan
+    - l_gripper_l_finger_joint
+    - l_gripper_r_finger_joint
+    - r_gripper_l_finger_joint
+    - r_gripper_r_finger_joint

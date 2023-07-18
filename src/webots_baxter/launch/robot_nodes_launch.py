@@ -47,12 +47,6 @@ def generate_launch_description():
     # with open('output.urdf', 'w') as f:
     #     f.write(baxter_xacro_description)
 
-
-    # baxter_urdf_path = os.path.join("output.urdf")
-    # with open(baxter_urdf_path, 'r') as infp:
-    #     robot_desc = infp.read()
-    
-
     spawn_URDF_baxter = URDFSpawner(
         name="Baxter",
         robot_description=baxter_xacro_description,
