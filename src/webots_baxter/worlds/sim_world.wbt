@@ -5,6 +5,7 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/RectangleArena.proto"
 EXTERNPROTO "/home/sahil/ws_puzzle-solver-robot/src/webots_baxter/proto/baxter.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/tables/protos/Desk.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/released/projects/devices/microsoft/protos/Kinect.proto"
 
 WorldInfo {
   basicTimeStep 20
@@ -23,4 +24,15 @@ RectangleArena {
 }
 Desk {
   translation 0.8 0 0
+}
+Robot {
+  children [
+    Kinect {
+      translation 0.8 0 1.8
+      rotation 0 0 1 1.5708000000000004
+      foot FALSE
+    }
+  ]
+  name "Vision"
+  controller "<extern>"
 }

@@ -41,7 +41,9 @@ def generate_launch_description():
 
     baxter_xacro_path = os.path.join(package_dir, "resource", "urdf", "baxter_webots.xacro")
     baxter_xacro_description = xacro.process_file(baxter_xacro_path).toxml()
-
+   
+    kinect_xacro_path = os.path.join(package_dir, "resource", "urdf", "kinect.urdf.xacro")
+    kinect_xacro_description = xacro.process_file(baxter_xacro_path).toxml()
 
     #     # Write the XML string to a file
     # with open('output.urdf', 'w') as f:
@@ -63,6 +65,14 @@ def generate_launch_description():
             {"use_sim_time": True},
             {"set_robot_state_publisher": False},
             ros2_control_params,
+        ],
+    )
+
+    kinect_driver = WebotsController(
+        robot_name="Vision",
+        parameters=[
+            {"robot_description": kinect_xacro_path},
+            {"use_sim_time": True},
         ],
     )
 
@@ -102,6 +112,7 @@ def generate_launch_description():
             robot_state_publisher,
             trajectory_controller_spawner,
             joint_state_broadcaster_spawner,
+            kinect_driver,
             launch.actions.RegisterEventHandler(
                 event_handler=launch.event_handlers.OnProcessIO(
                     target_action=spawn_URDF_baxter,
