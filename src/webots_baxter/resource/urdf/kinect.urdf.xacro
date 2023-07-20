@@ -1,19 +1,43 @@
 <?xml version="1.0"?>
 <robot name="Vision" xmlns:xacro="http://wiki.ros.org/xacro">
 
-        <webots>
-            <device reference="kinect color" type="Camera">
-                <ros>
-                    <topicName>/kinect_camera</topicName>
-                    <alwaysOn>true</alwaysOn>
-                </ros>
-            </device>
-            <device reference="kinect range" type="RangeFinder">
-                <ros>
-                    <topicName>/kinect_range</topicName>
-                    <alwaysOn>true</alwaysOn>
-                </ros>
-            </device>
-        </webots>
+    <webots>
+        <device reference="kinect color" type="Camera">
+            <ros>
+                <topicName>/kinect_camera</topicName>
+                <alwaysOn>true</alwaysOn>
+            </ros>
+        </device>
+        <device reference="kinect range" type="RangeFinder">
+            <ros>
+                <topicName>/kinect_range</topicName>
+                <alwaysOn>true</alwaysOn>
+            </ros>
+        </device>
+    </webots>
+
+    <link name="world">
+    </link>
+    <link name="solid">
+    </link>
+    <joint name="world_solid_joint" type="fixed">
+        <parent link="world" />
+        <child link="solid" />
+        <origin xyz="0.8 0 1.8" rpy="0 0 1.5708" />
+    </joint>
+    <link name="kinect_range">
+    </link>
+    <joint name="solid_kinect range_joint" type="fixed">
+        <parent link="solid" />
+        <child link="kinect_range" />
+        <origin xyz="0 0 -0.0127" rpy="-0.785397 1.570792 0.785397" />
+    </joint>
+    <link name="kinect_color">
+    </link>
+    <joint name="solid_kinect color_joint" type="fixed">
+        <parent link="solid" />
+        <child link="kinect_color" />
+        <origin xyz="0 0 -0.0127" rpy="-2.356193 1.570792 -0.7854" />
+    </joint>
 
 </robot>

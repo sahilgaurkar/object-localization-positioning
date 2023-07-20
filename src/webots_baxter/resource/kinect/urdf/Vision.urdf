@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<robot name="Vision" xmlns:xacro="http://ros.org/wiki/xacro">
+  <link name="base_link">
+  </link>
+  <link name="solid">
+  </link>
+  <joint name="base_link_solid_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="solid"/>
+    <origin xyz="0.8 0 1.8" rpy="0 0 1.5708"/>
+  </joint>
+  <link name="kinect range">
+  </link>
+  <joint name="solid_kinect range_joint" type="fixed">
+    <parent link="solid"/>
+    <child link="kinect range"/>
+    <origin xyz="0 0 -0.0127" rpy="-0.785397 1.570792 0.785397"/>
+  </joint>
+  <link name="kinect color">
+  </link>
+  <joint name="solid_kinect color_joint" type="fixed">
+    <parent link="solid"/>
+    <child link="kinect color"/>
+    <origin xyz="0 0 -0.0127" rpy="-2.356193 1.570792 -0.7854"/>
+  </joint>
+</robot>

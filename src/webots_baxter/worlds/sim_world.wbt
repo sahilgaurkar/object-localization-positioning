@@ -1,18 +1,17 @@
-#VRML_SIM R2023a utf8
+#VRML_SIM R2023b utf8
 
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/RectangleArena.proto"
-EXTERNPROTO "/home/sahil/ws_puzzle-solver-robot/src/webots_baxter/proto/baxter.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/tables/protos/Desk.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/released/projects/devices/microsoft/protos/Kinect.proto"
+EXTERNPROTO "/home/sahil/ws_puzzle-solver-robot/src/webots_baxter/proto/Kinect.proto"
 
 WorldInfo {
   basicTimeStep 20
 }
 Viewpoint {
-  orientation -0.22282023306447224 0.07766909980961081 0.9717605953483908 2.488407034146106
-  position 3.16182750639907 -2.0408309780283664 2.230086590794584
+  orientation -0.22440783846675016 0.18536389756736016 0.956703374883416 1.8040704461531858
+  position 1.937786467638262 -5.255597511434 3.441175510708103
 }
 TexturedBackground {
 }
@@ -29,7 +28,7 @@ Robot {
   children [
     Kinect {
       translation 0.8 0 1.8
-      rotation 0 0 1 1.5708000000000004
+      rotation 0 0 1 1.5708
       foot FALSE
     }
   ]
