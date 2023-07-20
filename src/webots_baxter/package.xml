@@ -19,6 +19,7 @@
   <depend>pluginlib</depend>
   <depend>baxter_description</depend>
   <depend>rethink_ee_description</depend>
+  <depend>depth_image_proc</depend>
   
   <exec_depend>rclpy</exec_depend>
   <exec_depend>builtin_interfaces</exec_depend>

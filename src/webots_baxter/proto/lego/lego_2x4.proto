@@ -1,0 +1,43 @@
+#VRML_SIM R2023b utf8
+# license: Apache License 2.0
+# license url: https://www.apache.org/licenses/LICENSE-2.0
+# keywords: household/toy
+# Lego Brick 2x4
+
+PROTO lego_2x4 [
+
+	  field	  SFString	  name		      "lego_2x4"
+  	field 	SFVec3f    	translation	  0 0 0.021
+  	field 	SFRotation 	rotation     	0 0 1 0
+  	field	  SFColor  	  baseColor     1 0 0                          # Lego Color
+  	
+
+    field	  SFFloat		  bodyMass	    -1
+    field	  MFString 	  meshURL       ["meshes/2x4.dae" ""]         # Mesh path
+    field   SFVec3f     boundingSize  0.064 0.032 0.021             # Bounding Box size
+]	
+{
+  Solid {
+  translation IS translation
+  rotation IS rotation
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor IS baseColor
+        roughness 1
+        metalness 0
+      }
+      geometry Mesh {
+        url IS meshURL
+      }
+    }
+  ]
+  name IS name
+  boundingObject Box {
+    size IS boundingSize
+  }
+  physics Physics {
+    mass IS bodyMass
+  }
+}
+}

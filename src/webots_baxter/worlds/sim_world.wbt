@@ -4,14 +4,18 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/project
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/floors/protos/RectangleArena.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/tables/protos/Desk.proto"
-EXTERNPROTO "/home/sahil/ws_puzzle-solver-robot/src/webots_baxter/proto/Kinect.proto"
+EXTERNPROTO "../proto/camera/Kinect.proto"
+EXTERNPROTO "../proto/lego/lego_2x2.proto"
+EXTERNPROTO "../proto/lego/lego_2x3.proto"
+EXTERNPROTO "../proto/lego/lego_2x4.proto"
+EXTERNPROTO "../proto/lego/lego_2x2_roof.proto"
 
 WorldInfo {
   basicTimeStep 20
 }
 Viewpoint {
-  orientation -0.22440783846675016 0.18536389756736016 0.956703374883416 1.8040704461531858
-  position 1.937786467638262 -5.255597511434 3.441175510708103
+  orientation -0.20234319925789426 0.12556704933650026 0.9712312525011769 2.0567843934537433
+  position 1.8107159702222924 -3.5427545200879424 2.705577970103015
 }
 TexturedBackground {
 }
@@ -27,11 +31,26 @@ Desk {
 Robot {
   children [
     Kinect {
-      translation 0.8 0 1.8
+      translation 0.8 0 1.5
       rotation 0 0 1 1.5708
       foot FALSE
     }
   ]
   name "Vision"
   controller "<extern>"
+}
+lego_2x2 {
+  translation 0.8 0.2 0.721
+}
+lego_2x2_roof {
+  translation 0.8 0.1 0.721
+  baseColor 0 1 0
+}
+lego_2x3 {
+  translation 0.8 -0.2 0.721
+  baseColor 0 0 1
+}
+lego_2x4 {
+  translation 0.8 -0.1 0.721
+  baseColor 1 1 0
 }
