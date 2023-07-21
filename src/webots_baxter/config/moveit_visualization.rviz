@@ -3,11 +3,9 @@ Panels:
     Help Height: 0
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /MotionPlanning1
-        - /Image1
+      Expanded: ~
       Splitter Ratio: 0.5
-    Tree Height: 251
+    Tree Height: 277
   - Class: rviz_common/Help
     Name: Help
   - Class: rviz_common/Views
@@ -692,7 +690,7 @@ Visualization Manager:
       Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.009999999776482582
+      Size (m): 0.0010000000474974513
       Style: Flat Squares
       Topic:
         Depth: 5
@@ -718,6 +716,49 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /kinect_camera/image_color
       Value: true
+    - Alpha: 1
+      Class: rviz_default_plugins/RobotModel
+      Collision Enabled: false
+      Description File: ""
+      Description Source: Topic
+      Description Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /robot_description
+      Enabled: true
+      Links:
+        All Links Enabled: true
+        Expand Joint Details: false
+        Expand Link Details: false
+        Expand Tree: false
+        Link Tree Style: Links in Alphabetic Order
+        kinect_color:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        kinect_range:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        solid:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        world:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+      Mass Properties:
+        Inertia: false
+        Mass: false
+      Name: RobotModel
+      TF Prefix: ""
+      Update Interval: 0
+      Value: true
+      Visual Enabled: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -736,25 +777,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 5.436260223388672
+      Distance: 4.5383687019348145
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.26644203066825867
-        Y: 0.6779264211654663
-        Z: 0.8379924297332764
+        X: 0.3750036060810089
+        Y: 0.5823430418968201
+        Z: 0.5138745903968811
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.41539859771728516
+      Pitch: 0.4053986072540283
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz_default_plugins)
-      Yaw: 5.173573970794678
+      Yaw: 5.283574104309082
     Saved: ~
 Window Geometry:
   Displays:
@@ -770,7 +811,7 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000001f30000039efc0200000009fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004100fffffffb000000100044006900730070006c006100790073010000003d00000138000000c900fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000017b0000018f0000017d00fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a0056006900650077007300000002fd000000b5000000a400fffffffb0000000a0049006d0061006700650000000306000000ac0000000000000000fb0000000c00430061006d0065007200610100000310000000cb0000000000000000fb0000000c00430061006d0065007200610000000310000000cb0000000000000000fb0000000a0049006d0061006700650100000310000000cb0000002800ffffff000001c70000039e00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000001f30000039efc0200000009fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004100fffffffb000000100044006900730070006c006100790073010000003d00000152000000c900fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000195000001b00000017d00fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a0056006900650077007300000002fd000000b5000000a400fffffffb0000000a0049006d006100670065010000034b000000900000002800fffffffb0000000c00430061006d0065007200610100000310000000cb0000000000000000fb0000000c00430061006d0065007200610000000310000000cb0000000000000000fb0000000a0049006d0061006700650100000310000000cb0000000000000000000001c70000039e00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
   Width: 960

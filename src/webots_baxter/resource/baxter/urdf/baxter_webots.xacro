@@ -11,7 +11,7 @@
     <xacro:property name="initial_positions" value="${xacro.load_yaml(initial_positions_file)['initial_positions']}" />
 
     <!-- Baxter Ros2 Control -->
-    <xacro:include filename="$(find webots_baxter)/resource/urdf/baxter.ros2_control.xacro" />
+    <xacro:include filename="$(find webots_baxter)/resource/baxter/urdf/baxter.ros2_control.xacro" />
 
     <ros2_control name="WebotsControl" type="system">
         <xacro:ros2_control prefix='right' initial_positions="${initial_positions}" />

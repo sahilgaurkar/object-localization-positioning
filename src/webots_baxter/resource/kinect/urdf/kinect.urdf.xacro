@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot name="Kinect" xmlns:xacro="http://wiki.ros.org/xacro">
+
+    <!-- Webots Plugin -->
+    <xacro:include filename="$(find webots_baxter)/resource/kinect/urdf/kinect_control.urdf" />
+
+    <!-- Kinect Links -->
+    <xacro:include filename="$(find webots_baxter)/resource/kinect/urdf/kinect.urdf" />
+
+    <!-- Table Links -->
+    <xacro:include filename="$(find webots_baxter)/resource/table/urdf/table.urdf.xacro" />
+
+
+</robot>

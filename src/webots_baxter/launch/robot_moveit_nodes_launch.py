@@ -34,7 +34,7 @@ def generate_launch_description():
     launch_description_nodes = []
     package_dir = get_package_share_directory(PACKAGE_NAME)
 
-    baxter_xacro_path = os.path.join(package_dir, "resource", "urdf", "baxter_webots.xacro")
+    baxter_xacro_path = os.path.join(package_dir, "resource", "baxter", "urdf", "baxter_webots.xacro")
     baxter_xacro_description = xacro.process_file(baxter_xacro_path).toxml()
 
     def load_file(filename):
@@ -56,7 +56,7 @@ def generate_launch_description():
         sim_time = {'use_sim_time': True}
 
         # Rviz node
-        rviz_config_file = os.path.join(package_dir, 'resource', 'moveit_visualization.rviz')
+        rviz_config_file = os.path.join(package_dir, 'config', 'moveit_visualization.rviz')
 
         launch_description_nodes.append(
             Node(

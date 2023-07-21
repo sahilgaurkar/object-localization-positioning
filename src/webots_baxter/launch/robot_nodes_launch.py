@@ -39,12 +39,12 @@ def generate_launch_description():
     )
 
     baxter_xacro_path = os.path.join(
-        package_dir, "resource", "urdf", "baxter_webots.xacro"
+        package_dir, "resource", "baxter", "urdf", "baxter_webots.xacro"
     )
     baxter_xacro_description = xacro.process_file(baxter_xacro_path).toxml()
 
     kinect_xacro_path = os.path.join(
-        package_dir, "resource", "urdf", "kinect.urdf.xacro"
+        package_dir, "resource", "kinect", "urdf", "kinect.urdf.xacro"
     )
     kinect_xacro_description = xacro.process_file(kinect_xacro_path).toxml()
 

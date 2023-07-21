@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<robot name="Kinect_control">
+
+  <webots>
+    <device reference="kinect color" type="Camera">
+        <ros>
+            <topicName>/kinect_camera</topicName>
+            <alwaysOn>true</alwaysOn>
+        </ros>
+    </device>
+    <device reference="kinect range" type="RangeFinder">
+        <ros>
+            <topicName>/kinect_range</topicName>
+            <alwaysOn>true</alwaysOn>
+        </ros>
+    </device>
+</webots>
+  
+</robot>
