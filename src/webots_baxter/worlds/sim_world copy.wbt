@@ -28,6 +28,17 @@ RectangleArena {
 Desk {
   translation 0.8 0 0
 }
+Robot {
+  children [
+    Kinect {
+      translation 0.8 0 1.5
+      rotation 0 0 1 1.5708
+      foot FALSE
+    }
+  ]
+  name "Vision"
+  controller "<extern>"
+}
 lego_2x2 {
   translation 0.8 0.2 0.721
 }

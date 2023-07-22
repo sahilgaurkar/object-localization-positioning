@@ -124,8 +124,8 @@ def generate_launch_description():
             robot_state_publisher,
             trajectory_controller_spawner,
             joint_state_broadcaster_spawner,
-            kinect_driver,
-            kinect_state_publisher,
+            # kinect_driver,
+            # kinect_state_publisher,
             launch.actions.RegisterEventHandler(
                 event_handler=launch.event_handlers.OnProcessIO(
                     target_action=spawn_URDF_baxter,

@@ -2,24 +2,43 @@
 <robot name="baxter" xmlns:xacro="http://wiki.ros.org/xacro">
 
     <!-- Custom Baxter Xacro-->
-    <webots>
-        <plugin type="webots_ros2_control::Ros2Control" />
-    </webots>
 
+
+    <!-- math constants -->
+    <xacro:property name="M_PI" value="3.1415926535897931" />
+
+    <!-- Parameters -->
     <xacro:property name="initial_positions_file"
         value="$(find webots_baxter)/config/initial_positions.yaml" />
-    <xacro:property name="initial_positions" value="${xacro.load_yaml(initial_positions_file)['initial_positions']}" />
+    <xacro:property name="initial_positions"
+        value="${xacro.load_yaml(initial_positions_file)['initial_positions']}" />
+
+
+    <!-- Baxter and Kinect Plugin -->
+    <webots>
+        <plugin type="webots_ros2_control::Ros2Control" />
+        <xacro:include filename="$(find webots_baxter)/resource/kinect/urdf/kinect_control.urdf" />
+    </webots>
+
 
     <!-- Baxter Ros2 Control -->
     <xacro:include filename="$(find webots_baxter)/resource/baxter/urdf/baxter.ros2_control.xacro" />
-
     <ros2_control name="WebotsControl" type="system">
         <xacro:ros2_control prefix='right' initial_positions="${initial_positions}" />
         <xacro:ros2_control prefix='left' initial_positions="${initial_positions}" />
     </ros2_control>
 
+
     <!-- baxter robot -->
     <xacro:include filename="$(find baxter_description)/urdf/baxter.urdf.xacro" />
+
+
+    <!-- Kinect Links -->
+    <xacro:include filename="$(find webots_baxter)/resource/kinect/urdf/kinect.urdf.xacro" />
+    <xacro:kinect xyz="0.8 0 1.5" rpy="0 ${M_PI/2} ${M_PI}" parent_frame="world" />
+
+    <!-- Table  -->
+    <xacro:include filename="$(find webots_baxter)/resource/table/urdf/table.urdf.xacro" />
 
 
 </robot>
