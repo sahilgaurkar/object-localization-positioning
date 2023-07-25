@@ -15,10 +15,10 @@ static const std::string OPENCV_WINDOW = "Image window";
 
 namespace my_opencv_demo
 {
-class TopicsDemoNode : public rclcpp::Node
+class CppOpenCvDemo : public rclcpp::Node
 {
 public:
-  explicit TopicsDemoNode(const rclcpp::NodeOptions& options) : rclcpp::Node("topics_demo_node", options)
+  explicit CppOpenCvDemo(const rclcpp::NodeOptions& options) : rclcpp::Node("topics_demo_node", options)
   {
     publisher_ = create_publisher<sensor_msgs::msg::Image>("/opencv_image", rclcpp::SystemDefaultsQoS());
     // create_publisher method takes in name of the topic and a default Quality of service settings
@@ -27,7 +27,7 @@ public:
                                                      // name of the topic
                                                      rclcpp::SystemDefaultsQoS(),
                                                      // QoS setting we want to use
-                                                     std::bind(&TopicsDemoNode::Callback, this, std::placeholders::_1)
+                                                     std::bind(&CppOpenCvDemo::Callback, this, std::placeholders::_1)
                                                      // A callback we want to use when ever a new message is received
                                                      // Using std::bind to pass it a member function
                                                      // in this case we can to call a function namaed callback
@@ -58,8 +58,7 @@ private:
 
     cv_bridge::CvImagePtr cv_ptr;
 
-      cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
-
+    cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
 
     if ((cv_ptr->image.rows > 60) && (cv_ptr->image.cols > 60))
     {
@@ -69,17 +68,16 @@ private:
     cv::imshow(OPENCV_WINDOW, cv_ptr->image);
     cv::waitKey(3);
 
-    msg_ = cv_bridge::CvImage(std_msgs::msg::Header(), "bgr8", cv_ptr->image)
-               .toImageMsg();
+    msg_ = cv_bridge::CvImage(std_msgs::msg::Header(), "bgr8", cv_ptr->image).toImageMsg();
 
     publisher_->publish(*msg_.get());
 
     // populating the data field using the datafield of incomming message
-    //publisher_->publish(greeting_msg);
+    // publisher_->publish(greeting_msg);
     // Publishing a new message using publisher
   }  // Logic to take the name message add greeting and publish it
 };
 
 }  // namespace my_opencv_demo
 
-RCLCPP_COMPONENTS_REGISTER_NODE(my_opencv_demo::TopicsDemoNode)
+RCLCPP_COMPONENTS_REGISTER_NODE(my_opencv_demo::CppOpenCvDemo)

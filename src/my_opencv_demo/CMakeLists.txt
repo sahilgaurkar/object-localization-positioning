@@ -7,7 +7,9 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclpy REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
@@ -15,8 +17,9 @@ find_package(image_transport REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(rclcpp_components REQUIRED)
 
+
 add_library(${PROJECT_NAME} SHARED
-  src/demo.cpp
+  src/cpp_opencv_demo.cpp
   )
 
 ament_target_dependencies(${PROJECT_NAME}
@@ -30,12 +33,20 @@ ament_target_dependencies(${PROJECT_NAME}
   )
 
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
-
 rclcpp_components_register_node(
   ${PROJECT_NAME}
-  PLUGIN "my_opencv_demo::TopicsDemoNode"
-  EXECUTABLE topics_demo_node
+  PLUGIN "my_opencv_demo::CppOpenCvDemo"
+  EXECUTABLE cpp_opencv_demo
 )
+
+
+#Install Python Modules
+ament_python_install_package(${PROJECT_NAME})
+
+# Install Python executables
+install(PROGRAMS
+scripts/py_opencv_demo.py  
+DESTINATION lib/${PROJECT_NAME})
 
 
 
