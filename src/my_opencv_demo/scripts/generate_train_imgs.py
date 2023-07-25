@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import rclpy
+import os
 from rclpy.node import Node
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
@@ -16,6 +17,7 @@ class PythonOpenCV(Node):
         self.create_subscription(Image, "/rgb/image_raw", self.subscribe_image, 10)
         # Create a Publisher
         self.pub_ = self.create_publisher(Image, "py_opencv", 10)
+        self.index_ = 0
 
         # OpenCV ROS2 bridge
         self.bridge = CvBridge()
@@ -27,12 +29,21 @@ class PythonOpenCV(Node):
         # Convert ROS Image message to OpenCV image
         self.current_frame = self.bridge.imgmsg_to_cv2(msg, "bgr8")
 
-        (rows, cols, channels) = self.current_frame.shape
-        if cols > 60 and rows > 60:
-            cv2.circle(self.current_frame, (50, 50), 10, 255)
+        #Resize Images
+        dim = (256, 256)
+        resized = cv2.resize(self.current_frame, dim, interpolation = cv2.INTER_AREA)
+
         # Display image
-        cv2.imshow("camera", self.current_frame)
-        cv2.waitKey(1)
+        cv2.imshow("camera", resized)
+
+        path = '/home/sahil/result/'
+        cv2.imwrite(os.path.join(path, f'img_{self.index_}.png'), resized)
+
+
+        print(os.path.join(path, f'img_{self.index_}.png'))
+        self.index_ += 1
+        cv2.waitKey(5)
+
 
         # Convert and Publish
         self.pub_.publish(self.bridge.cv2_to_imgmsg(self.current_frame, "bgr8"))

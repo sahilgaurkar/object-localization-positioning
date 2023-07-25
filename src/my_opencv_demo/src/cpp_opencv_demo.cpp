@@ -23,7 +23,7 @@ public:
     publisher_ = create_publisher<sensor_msgs::msg::Image>("/opencv_image", rclcpp::SystemDefaultsQoS());
     // create_publisher method takes in name of the topic and a default Quality of service settings
     subscription_ =
-        create_subscription<sensor_msgs::msg::Image>("/camera/image_raw",
+        create_subscription<sensor_msgs::msg::Image>("/rgb/image_raw",
                                                      // name of the topic
                                                      rclcpp::SystemDefaultsQoS(),
                                                      // QoS setting we want to use

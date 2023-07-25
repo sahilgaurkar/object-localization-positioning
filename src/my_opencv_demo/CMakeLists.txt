@@ -46,6 +46,7 @@ ament_python_install_package(${PROJECT_NAME})
 # Install Python executables
 install(PROGRAMS
 scripts/py_opencv_demo.py  
+scripts/generate_train_imgs.py
 DESTINATION lib/${PROJECT_NAME})
 
 

@@ -750,7 +750,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /depth/point_cloud
+        Value: /depth/points
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
@@ -766,7 +766,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /camera/image_raw
+        Value: /rgb/image_raw
       Value: true
   Enabled: true
   Global Options:
