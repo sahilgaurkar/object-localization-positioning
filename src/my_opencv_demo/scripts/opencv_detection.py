@@ -79,11 +79,11 @@ class PythonOpenCV(Node):
         y_img = img.copy()
         y_img[np.where(mask==0)] = 0
 
-        
+
 
 
         # Display image
-        cv2.imshow("camera", y_img, edges)
+        cv2.imshow("camera", y_img)
         cv2.waitKey(1)
 
         # Convert and Publish
