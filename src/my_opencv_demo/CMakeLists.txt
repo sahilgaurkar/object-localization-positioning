@@ -16,6 +16,7 @@ find_package(cv_bridge REQUIRED)
 find_package(image_transport REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(rclcpp_components REQUIRED)
+find_package(tf2_ros REQUIRED)
 
 
 add_library(${PROJECT_NAME} SHARED

@@ -31,7 +31,7 @@ Desk {
 lego_2x2 {
   translation 0.8 0.2 0.721
 }
-lego_2x2_roof {
+lego_2x3 {
   translation 0.8 0.1 0.721
   baseColor 0 1 0
 }
