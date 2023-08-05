@@ -3,7 +3,8 @@ Panels:
     Help Height: 0
     Name: Displays
     Property Tree Widget:
-      Expanded: ~
+      Expanded:
+        - /TF1
       Splitter Ratio: 0.5
     Tree Height: 277
   - Class: rviz_common/Help
@@ -755,7 +756,7 @@ Visualization Manager:
       Use rainbow: true
       Value: true
     - Class: rviz_default_plugins/Image
-      Enabled: true
+      Enabled: false
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -767,6 +768,259 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /rgb/image_raw
+      Value: false
+    - Class: rviz_default_plugins/TF
+      Enabled: true
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+        base:
+          Value: true
+        blue:
+          Value: true
+        camera_depth_frame:
+          Value: true
+        camera_depth_optical_frame:
+          Value: true
+        camera_link:
+          Value: true
+        camera_rgb_frame:
+          Value: true
+        camera_rgb_optical_frame:
+          Value: true
+        collision_head_link_1:
+          Value: true
+        collision_head_link_2:
+          Value: true
+        desk:
+          Value: true
+        display:
+          Value: true
+        dummyhead1:
+          Value: true
+        green:
+          Value: true
+        head:
+          Value: true
+        head_camera:
+          Value: true
+        l_gripper_l_finger:
+          Value: true
+        l_gripper_l_finger_tip:
+          Value: true
+        l_gripper_r_finger:
+          Value: true
+        l_gripper_r_finger_tip:
+          Value: true
+        left_arm_itb:
+          Value: true
+        left_arm_mount:
+          Value: true
+        left_gripper:
+          Value: true
+        left_gripper_base:
+          Value: true
+        left_hand:
+          Value: true
+        left_hand_accelerometer:
+          Value: true
+        left_hand_camera:
+          Value: true
+        left_hand_camera_axis:
+          Value: true
+        left_hand_range:
+          Value: true
+        left_lower_elbow:
+          Value: true
+        left_lower_forearm:
+          Value: true
+        left_lower_shoulder:
+          Value: true
+        left_torso_itb:
+          Value: true
+        left_upper_elbow:
+          Value: true
+        left_upper_elbow_visual:
+          Value: true
+        left_upper_forearm:
+          Value: true
+        left_upper_forearm_visual:
+          Value: true
+        left_upper_shoulder:
+          Value: true
+        left_wrist:
+          Value: true
+        pedestal:
+          Value: true
+        r_gripper_l_finger:
+          Value: true
+        r_gripper_l_finger_tip:
+          Value: true
+        r_gripper_r_finger:
+          Value: true
+        r_gripper_r_finger_tip:
+          Value: true
+        red:
+          Value: true
+        right_arm_itb:
+          Value: true
+        right_arm_mount:
+          Value: true
+        right_gripper:
+          Value: true
+        right_gripper_base:
+          Value: true
+        right_hand:
+          Value: true
+        right_hand_accelerometer:
+          Value: true
+        right_hand_camera:
+          Value: true
+        right_hand_camera_axis:
+          Value: true
+        right_hand_range:
+          Value: true
+        right_lower_elbow:
+          Value: true
+        right_lower_forearm:
+          Value: true
+        right_lower_shoulder:
+          Value: true
+        right_torso_itb:
+          Value: true
+        right_upper_elbow:
+          Value: true
+        right_upper_elbow_visual:
+          Value: true
+        right_upper_forearm:
+          Value: true
+        right_upper_forearm_visual:
+          Value: true
+        right_upper_shoulder:
+          Value: true
+        right_wrist:
+          Value: true
+        screen:
+          Value: true
+        sonar_ring:
+          Value: true
+        torso:
+          Value: true
+        world:
+          Value: true
+        yellow:
+          Value: true
+      Marker Scale: 1
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        world:
+          base:
+            collision_head_link_1:
+              {}
+            collision_head_link_2:
+              {}
+            torso:
+              head:
+                dummyhead1:
+                  {}
+                head_camera:
+                  {}
+                screen:
+                  display:
+                    {}
+              left_arm_mount:
+                left_upper_shoulder:
+                  left_lower_shoulder:
+                    left_upper_elbow:
+                      left_lower_elbow:
+                        left_upper_forearm:
+                          left_arm_itb:
+                            {}
+                          left_lower_forearm:
+                            left_wrist:
+                              left_hand:
+                                left_gripper_base:
+                                  l_gripper_l_finger:
+                                    l_gripper_l_finger_tip:
+                                      {}
+                                  l_gripper_r_finger:
+                                    l_gripper_r_finger_tip:
+                                      {}
+                                  left_gripper:
+                                    {}
+                                left_hand_accelerometer:
+                                  {}
+                                left_hand_camera:
+                                  {}
+                                left_hand_camera_axis:
+                                  {}
+                                left_hand_range:
+                                  {}
+                        left_upper_forearm_visual:
+                          {}
+                    left_upper_elbow_visual:
+                      {}
+              left_torso_itb:
+                {}
+              pedestal:
+                {}
+              right_arm_mount:
+                right_upper_shoulder:
+                  right_lower_shoulder:
+                    right_upper_elbow:
+                      right_lower_elbow:
+                        right_upper_forearm:
+                          right_arm_itb:
+                            {}
+                          right_lower_forearm:
+                            right_wrist:
+                              right_hand:
+                                right_gripper_base:
+                                  r_gripper_l_finger:
+                                    r_gripper_l_finger_tip:
+                                      {}
+                                  r_gripper_r_finger:
+                                    r_gripper_r_finger_tip:
+                                      {}
+                                  right_gripper:
+                                    {}
+                                right_hand_accelerometer:
+                                  {}
+                                right_hand_camera:
+                                  {}
+                                right_hand_camera_axis:
+                                  {}
+                                right_hand_range:
+                                  {}
+                        right_upper_forearm_visual:
+                          {}
+                    right_upper_elbow_visual:
+                      {}
+              right_torso_itb:
+                {}
+              sonar_ring:
+                {}
+          camera_link:
+            camera_depth_frame:
+              camera_depth_optical_frame:
+                {}
+            camera_rgb_frame:
+              blue:
+                {}
+              camera_rgb_optical_frame:
+                {}
+              green:
+                {}
+              red:
+                {}
+              yellow:
+                {}
+          desk:
+            {}
+      Update Interval: 0
       Value: true
   Enabled: true
   Global Options:
@@ -786,41 +1040,41 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 5.057703018188477
+      Distance: 1.0596086978912354
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.7033010125160217
-        Y: 0.37611109018325806
-        Z: 0.6676867008209229
+        X: 0.8090909719467163
+        Y: -0.055040765553712845
+        Z: 0.6789257526397705
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.6353979110717773
+      Pitch: 1.160396695137024
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz_default_plugins)
-      Yaw: 5.473578453063965
+      Yaw: 6.238569736480713
     Saved: ~
 Window Geometry:
   Displays:
-    collapsed: false
+    collapsed: true
   Height: 1016
   Help:
     collapsed: false
-  Hide Left Dock: false
+  Hide Left Dock: true
   Hide Right Dock: false
   Image:
-    collapsed: false
+    collapsed: true
   MotionPlanning:
-    collapsed: false
+    collapsed: true
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000001f30000039efc0200000009fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004100fffffffb000000100044006900730070006c006100790073010000003d00000152000000c900fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000195000001b00000017d00fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a0056006900650077007300000002fd000000b5000000a400fffffffb0000000a0049006d006100670065010000034b000000900000002800fffffffb0000000c00430061006d0065007200610100000310000000cb0000000000000000fb0000000c00430061006d0065007200610000000310000000cb0000000000000000fb0000000a0049006d0061006700650100000310000000cb0000000000000000000001c70000039e00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000001f30000039efc0200000009fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004100fffffffb000000100044006900730070006c006100790073000000003d00000152000000c900fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006700000001950000017d0000017d00fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a0056006900650077007300000002fd000000b5000000a400fffffffb0000000a0049006d0061006700650000000318000000c30000002800fffffffb0000000c00430061006d0065007200610100000310000000cb0000000000000000fb0000000c00430061006d0065007200610000000310000000cb0000000000000000fb0000000a0049006d0061006700650100000310000000cb0000000000000000000003c00000039e00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
   Width: 960

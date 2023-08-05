@@ -5,19 +5,13 @@ from rclpy.node import Node
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 import cv2
-import numpy as np
+from message_filters import TimeSynchronizer, Subscriber
 import sensor_msgs_py.point_cloud2 as pc2
 from sensor_msgs.msg import PointCloud2
-from tf2_ros.transform_listener import TransformListener
 from tf2_ros import TransformBroadcaster
-from geometry_msgs.msg import PoseStamped, TransformStamped
-import math
-from tf2_ros.buffer import Buffer
-from message_filters import TimeSynchronizer, Subscriber, ApproximateTimeSynchronizer
-from rclpy.qos import qos_profile_sensor_data
-import math
 from math import atan2, cos, sin, sqrt, pi
-
+import numpy as np
+from geometry_msgs.msg import PoseStamped, TransformStamped
 
 class PythonOpenCV(Node):
     def __init__(self):
@@ -45,14 +39,6 @@ class PythonOpenCV(Node):
         self.bridge = CvBridge()
 
         self.tf_broadcaster = TransformBroadcaster(self)
-
-    def callback(self, image_msg, pointcloud_msg):
-        assert image_msg.header.stamp == pointcloud_msg.header.stamp
-
-        # self.get_logger().info("Received image and pointcloud")
-
-        self.block_detection(image_msg)
-        self.detector(pointcloud_msg)
 
     def drawAxis(self, img, p_, q_, color, scale):
         p = list(p_)
@@ -112,7 +98,14 @@ class PythonOpenCV(Node):
 
         return angle
 
-    def block_detection(self, image_msg):
+    def callback(self, image_msg, pointcloud_msg):
+        assert image_msg.header.stamp == pointcloud_msg.header.stamp
+
+        # self.get_logger().info("Received image and pointcloud")
+
+        centroid, angle = self.block_detection(image_msg, pointcloud_msg)
+
+    def block_detection(self, image_msg, pointcloud_msg):
         # This method will detect block of color and their centroids
 
         # Was the image there?
@@ -123,80 +116,72 @@ class PythonOpenCV(Node):
         self.img_raw = self.bridge.imgmsg_to_cv2(image_msg, "bgr8")
         self.img_hsv = cv2.cvtColor(self.img_raw, cv2.COLOR_BGR2HSV)
 
-        mask = (
+        masks = (
             self.get_redMask()
-            + self.get_greenMask()
-            + self.get_blueMask()
-            + self.get_yellowMask()
+            , self.get_greenMask()
+            , self.get_blueMask()
+            , self.get_yellowMask()
         )
 
-        # set my output img to zero everywhere except my mask
-        img_masked = self.img_raw.copy()
-        img_masked[np.where(mask == 0)] = 0
+        for idx, mask in enumerate(masks):
+            # set my output img to zero everywhere except my mask
+            img_masked = self.img_raw.copy()
+            img_masked[np.where(mask == 0)] = 0
 
+            contour = self.get_contour(img_masked)
+
+            if contour is not None:
+                centroid, angle = self.get_pose(contour)
+                print (centroid, angle)
+                self.get_3Dpt(idx, centroid, angle, pointcloud_msg)
+
+    def get_contour(self, img_masked):
         edges = cv2.Canny(img_masked, 400, 650)
         cnts, _ = cv2.findContours(edges, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
         # print (cnts)
-        outCnt = []
+        contours = []
         for c in cnts:
             perimeter = cv2.arcLength(c, True)
             print ("Perimeter: " + str(perimeter))
             if perimeter >= 90 and perimeter <= 350:
-                outCnt.append(c)
-
-        self.centroids = []
-        self.angles = []
-        self.out_img = self.img_raw.copy()
+                contours.append(c)
+        
+        return contours[0]
+    
+    def get_pose(self, contour):
+        
+        centroid = []
+        angle = []
+        out_img = self.img_raw.copy()
         out_ellipse = []
-        for i, c in enumerate(outCnt):
-            try:
-                # Calculate the area of each contour
-                area = cv2.contourArea(c)
-                # print (area)
+        try:
+            # Printing and displaying results
+            cv2.drawContours(self.out_img, contour, -1, (0, 255, 0), 2)
 
-                # Ignore contours that are too small or too large
-                # if area < 600 or 2000 < area:
-                #     continue
-                (x, y), (MA, ma), theta = cv2.fitEllipse(c)
-                self.centroids.append((x, y))
-                
-                # Printing and displaying results
-                cv2.drawContours(self.out_img, c, i, (0, 255, 0), 2)
+            (x, y), (MA, ma), _ = cv2.fitEllipse(contour)
+            centroid.append((x, y))
+            
+            theta = self.getOrientation(contour, self.out_img)
+            angle.append(theta)
+        except:
+            print("Something went wrong")
+            return -1
+        finally:
+            return centroid, angle
 
-                theta = self.getOrientation(c, self.out_img)
-                self.angles.append(theta)
+    def get_3Dpt(self, idx, centroid, angle, pointcloud_msg):
 
-                out_ellipse.append(cv2.fitEllipse(c))
+        pt2D = centroid
+        theta = angle
 
-                # print (f"Centroid: {(x,y)}")
-                # print (f"Angle: {theta}")
-            except:
-                print("Something went wrong")
+        pt3D = self.get_depth(pt2D, pointcloud_msg)
 
-        # for each_ellipse in out_ellipse:
-        #     cv2.ellipse(self.out_img, each_ellipse, (255, 0, 0), 2)
+        # print (f"Block centroid: {pt2D}")
+        # print (f"Block centroid 3D (wrt to Kinect): {pt3D}")
+        # print (f"Block angle: {theta}")
 
-        cv2.imshow("camera", self.out_img)
-        cv2.waitKey(1)
-
-    def detector(self, pointcloud_msg):
-        print(f"Number of blocks detected: {len(self.centroids)}")
-
-        if self.centroids and self.angles:
-            child_frame = ""
-            for idx, centroid in enumerate(self.centroids):
-                pt2D = self.centroids[idx]
-                theta = self.angles[idx]
-
-
-                pt3D = self.get_depth(pt2D, pointcloud_msg)
-
-                # print (f"Block centroid: {pt2D}")
-                # print (f"Block centroid 3D (wrt to Kinect): {pt3D}")
-                # print (f"Block angle: {theta}")
-
-                self.transformToWorld(pt3D, theta, str(idx))
+        self.transformToWorld(pt3D, theta, str(idx))
 
     def transformToWorld(self, pt3D, theta, child_frame):
         from_frame_rel = "world"
@@ -233,12 +218,12 @@ class PythonOpenCV(Node):
         quat = [x, y, z, w]
         Bellow should be replaced when porting for ROS 2 Python tf_conversions is done.
         """
-        cy = math.cos(yaw * 0.5)
-        sy = math.sin(yaw * 0.5)
-        cp = math.cos(pitch * 0.5)
-        sp = math.sin(pitch * 0.5)
-        cr = math.cos(roll * 0.5)
-        sr = math.sin(roll * 0.5)
+        cy = cos(yaw * 0.5)
+        sy = sin(yaw * 0.5)
+        cp = cos(pitch * 0.5)
+        sp = sin(pitch * 0.5)
+        cr = cos(roll * 0.5)
+        sr = sin(roll * 0.5)
 
         q = [0] * 4
         q[0] = cy * cp * cr + sy * sp * sr
@@ -271,7 +256,7 @@ class PythonOpenCV(Node):
         mask1 = cv2.inRange(self.img_hsv, lower, upper)
 
         # join my masks
-        return mask0 + mask1
+        return [mask0 + mask1, 'red']
 
     def get_greenMask(self):
         lower = np.array([40, 10, 10])
@@ -294,7 +279,6 @@ class PythonOpenCV(Node):
 
         return mask
 
-
 def main(args=None):
     rclpy.init(args=args)
     node = PythonOpenCV()
@@ -302,7 +286,6 @@ def main(args=None):
     rclpy.spin(node)
 
     rclpy.shutdown()
-
 
 if __name__ == "__main__":
     main()

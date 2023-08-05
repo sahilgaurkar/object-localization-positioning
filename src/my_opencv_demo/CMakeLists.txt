@@ -49,6 +49,8 @@ install(PROGRAMS
 scripts/py_opencv_demo.py  
 scripts/generate_train_imgs.py
 scripts/opencv_detection.py
+scripts/block_detection1.py
+scripts/block_detection.py
 DESTINATION lib/${PROJECT_NAME})
 
 
