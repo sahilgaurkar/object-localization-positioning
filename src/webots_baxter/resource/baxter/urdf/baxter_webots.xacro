@@ -17,7 +17,8 @@
     <!-- Baxter and Kinect Plugin -->
     <webots>
         <plugin type="webots_ros2_control::Ros2Control" />
-        <xacro:include filename="$(find webots_baxter)/resource/kinect/urdf/kinect_control.urdf" />
+        <!-- <xacro:include filename="$(find webots_baxter)/resource/kinect/urdf/kinect_control.urdf" /> -->
+        <xacro:include filename="$(find webots_baxter)/resource/kinect_1/urdf/kinect_control.urdf" />
     </webots>
 
 
@@ -34,11 +35,29 @@
 
 
     <!-- Kinect Links -->
-    <xacro:include filename="$(find webots_baxter)/resource/kinect/urdf/kinect.urdf.xacro" />
-    <xacro:kinect xyz="0.8 0 1.5" rpy="0 ${M_PI/2} ${M_PI}" parent_frame="world" />
+    <!-- <xacro:include filename="$(find webots_baxter)/resource/kinect/urdf/kinect.urdf.xacro" />
+    <xacro:kinect xyz="0.8 0 1.5" rpy="0 ${M_PI/2} ${M_PI}" parent_frame="world" /> -->
 
     <!-- Table  -->
     <xacro:include filename="$(find webots_baxter)/resource/table/urdf/table.urdf.xacro" />
+
+
+    <!-- Source Table and Kinect -->
+
+    <!-- Kinect Links -->
+    <link name="world_1"/>
+    <joint name="world_1_fixed" type="fixed">
+      <origin rpy="0 0 0" xyz="0.0 3.0 0.0"/>
+      <parent link="world"/>
+      <child link="world_1"/>
+    </joint>
+
+    <xacro:include filename="$(find webots_baxter)/resource/kinect_1/urdf/kinect.urdf.xacro" />
+    <xacro:kinect xyz="0.8 0 1.5" rpy="0 ${M_PI/2} ${M_PI}" parent_frame="world_1" />
+
+    <!-- Table  -->
+    <xacro:include filename="$(find webots_baxter)/resource/table_1/urdf/table.urdf.xacro" />
+
 
 
 </robot>

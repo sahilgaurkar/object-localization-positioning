@@ -28,7 +28,7 @@ RectangleArena {
 Desk {
   translation 0.8 0 0
 }
-lego_2x2 {
+lego_2x4 {
   translation 0.8 0.2 0.721
 }
 lego_2x3 {
@@ -41,5 +41,23 @@ lego_2x3 {
 }
 lego_2x4 {
   translation 0.8 -0.1 0.721
+  baseColor 1 1 0
+}
+Desk {
+  translation 0.8 3 0
+}
+lego_2x4 {
+  translation 0.8 3.2 0.721
+}
+lego_2x3 {
+  translation 0.8 3.1 0.721
+  baseColor 0 1 0
+}
+lego_2x3 {
+  translation 0.8 2.8 0.721
+  baseColor 0 0 1
+}
+lego_2x4 {
+  translation 0.8 2.9 0.721
   baseColor 1 1 0
 }

@@ -108,6 +108,13 @@ def generate_launch_description():
                 PythonLaunchDescriptionSource(os.path.join(package_dir, 'launch', 'robot_world_launch.py'))
             )
         )
+
+        launch_description_nodes.append(
+            Node(
+                package='my_opencv_demo',
+                executable='block_detection.py',
+            )
+        )
     else:
         launch_description_nodes.append(LogInfo(msg='"moveit" package is not installed, \
                                                 please install it in order to run this demo.'))

@@ -12,6 +12,7 @@ find_package(geometry_msgs REQUIRED)
 find_package(webots_ros2_driver REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(depth_image_proc REQUIRED)
+find_package(my_opencv_demo REQUIRED)
 
 
 #Add Source files
