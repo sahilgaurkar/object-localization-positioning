@@ -36,7 +36,7 @@
 
     <!-- Kinect Links -->
     <xacro:include filename="$(find webots_baxter)/resource/kinect/urdf/kinect.urdf.xacro" />
-    <xacro:kinect xyz="0.8 0 1.5" rpy="0 ${M_PI/2} ${M_PI}" parent_frame="world" />
+    <xacro:kinect xyz="0.0 0 1.5" rpy="0 ${M_PI/2} ${M_PI}" parent_frame="desk" />
 
     <!-- Table  -->
     <xacro:include filename="$(find webots_baxter)/resource/table/urdf/table.urdf.xacro" />
@@ -53,7 +53,7 @@
     </joint>
 
     <xacro:include filename="$(find webots_baxter)/resource/kinect_1/urdf/kinect.urdf.xacro" />
-    <xacro:kinect_1 xyz="0.8 0 1.5" rpy="0 ${M_PI/2} ${M_PI}" parent_frame="world_1" />
+    <xacro:kinect_1 xyz="0.0 0 1.5" rpy="0 ${M_PI/2} ${M_PI}" parent_frame="desk_1" />
 
     <!-- Table  -->
     <xacro:include filename="$(find webots_baxter)/resource/table_1/urdf/table.urdf.xacro" />

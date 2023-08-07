@@ -17,6 +17,8 @@ find_package(image_transport REQUIRED)
 find_package(OpenCV REQUIRED)
 find_package(rclcpp_components REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(opencv_interfaces REQUIRED)
+
 
 
 add_library(${PROJECT_NAME} SHARED
@@ -46,11 +48,8 @@ ament_python_install_package(${PROJECT_NAME})
 
 # Install Python executables
 install(PROGRAMS
-scripts/py_opencv_demo.py  
-scripts/generate_train_imgs.py
-scripts/opencv_detection.py
-scripts/block_detection1.py
 scripts/block_detection.py
+scripts/block_detection_service.py
 DESTINATION lib/${PROJECT_NAME})
 
 

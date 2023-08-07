@@ -1,0 +1,7 @@
+#Request
+bool capture_image
+
+---
+#Response
+int32 objects_detected
+bool capture_sucessfull

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<robot name="Kinect_control">
+<robot name="Kinect_control_1">
 
     <device reference="camera_rgb_frame_1" type="Camera">
         <ros>
-            <imageSuffix>/image_raw_1</imageSuffix>
+            <imageSuffix>/image_raw</imageSuffix>
             <topicName>/rgb_1</topicName>
             <alwaysOn>true</alwaysOn>
             <updateRate>1</updateRate>
@@ -12,8 +12,8 @@
 
     <device reference="camera_depth_frame_1" type="RangeFinder">
         <ros>
-            <pointCloudSuffix>/points_1</pointCloudSuffix>
-            <imageSuffix>/image_raw_1</imageSuffix>
+            <pointCloudSuffix>/points</pointCloudSuffix>
+            <imageSuffix>/image_raw</imageSuffix>
             <topicName>/depth_1</topicName>
             <alwaysOn>true</alwaysOn>
             <updateRate>1</updateRate>

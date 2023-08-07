@@ -1,0 +1,7 @@
+#Request
+sensor_msgs/Image image
+sensor_msgs/PointCloud2 points
+
+---
+#Response
+ObjectList[] objects

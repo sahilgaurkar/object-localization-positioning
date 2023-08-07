@@ -3,15 +3,15 @@ Panels:
     Help Height: 0
     Name: Displays
     Property Tree Widget:
-      Expanded:
-        - /TF1
+      Expanded: ~
       Splitter Ratio: 0.5
-    Tree Height: 277
+    Tree Height: 392
   - Class: rviz_common/Help
     Name: Help
   - Class: rviz_common/Views
     Expanded:
       - /Current View1
+      - /Current View1/Focal Point1
     Name: Views
     Splitter Ratio: 0.5
 Visualization Manager:
@@ -74,7 +74,15 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          camera_depth_frame_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           camera_depth_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_depth_optical_frame_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -83,11 +91,24 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          camera_link_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           camera_rgb_frame:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          camera_rgb_frame_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           camera_rgb_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_rgb_optical_frame_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -102,6 +123,11 @@ Visualization Manager:
             Show Trail: false
             Value: true
           desk:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          desk_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -365,6 +391,10 @@ Visualization Manager:
             Show Trail: false
             Value: true
           world:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          world_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -422,7 +452,15 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          camera_depth_frame_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           camera_depth_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_depth_optical_frame_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -431,11 +469,24 @@ Visualization Manager:
             Show Axes: false
             Show Trail: false
             Value: true
+          camera_link_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
           camera_rgb_frame:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          camera_rgb_frame_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
           camera_rgb_optical_frame:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+          camera_rgb_optical_frame_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -450,6 +501,11 @@ Visualization Manager:
             Show Trail: false
             Value: true
           desk:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          desk_1:
             Alpha: 1
             Show Axes: false
             Show Trail: false
@@ -716,6 +772,10 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
+          world_1:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
         Robot Alpha: 0.5
         Show Robot Collision: false
         Show Robot Visual: true
@@ -755,20 +815,40 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
-    - Class: rviz_default_plugins/Image
-      Enabled: false
-      Max Value: 1
-      Median window: 5
-      Min Value: 0
-      Name: Image
-      Normalize Range: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz_default_plugins/PointCloud2
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: PointCloud2
+      Position Transformer: XYZ
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.0010000000474974513
+      Style: Flat Squares
       Topic:
         Depth: 5
         Durability Policy: Volatile
+        Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /rgb/image_raw
-      Value: false
+        Value: /depth_1/points
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
     - Class: rviz_default_plugins/TF
       Enabled: true
       Frame Timeout: 15
@@ -776,17 +856,25 @@ Visualization Manager:
         All Enabled: true
         base:
           Value: true
-        blue:
-          Value: true
         camera_depth_frame:
+          Value: true
+        camera_depth_frame_1:
           Value: true
         camera_depth_optical_frame:
           Value: true
+        camera_depth_optical_frame_1:
+          Value: true
         camera_link:
+          Value: true
+        camera_link_1:
           Value: true
         camera_rgb_frame:
           Value: true
+        camera_rgb_frame_1:
+          Value: true
         camera_rgb_optical_frame:
+          Value: true
+        camera_rgb_optical_frame_1:
           Value: true
         collision_head_link_1:
           Value: true
@@ -794,11 +882,11 @@ Visualization Manager:
           Value: true
         desk:
           Value: true
+        desk_1:
+          Value: true
         display:
           Value: true
         dummyhead1:
-          Value: true
-        green:
           Value: true
         head:
           Value: true
@@ -860,8 +948,6 @@ Visualization Manager:
           Value: true
         r_gripper_r_finger_tip:
           Value: true
-        red:
-          Value: true
         right_arm_itb:
           Value: true
         right_arm_mount:
@@ -908,9 +994,9 @@ Visualization Manager:
           Value: true
         world:
           Value: true
-        yellow:
+        world_1:
           Value: true
-      Marker Scale: 1
+      Marker Scale: 0.5
       Name: TF
       Show Arrows: true
       Show Axes: true
@@ -1003,25 +1089,39 @@ Visualization Manager:
                 {}
               sonar_ring:
                 {}
-          camera_link:
-            camera_depth_frame:
-              camera_depth_optical_frame:
-                {}
-            camera_rgb_frame:
-              blue:
-                {}
-              camera_rgb_optical_frame:
-                {}
-              green:
-                {}
-              red:
-                {}
-              yellow:
-                {}
           desk:
-            {}
+            camera_link:
+              camera_depth_frame:
+                camera_depth_optical_frame:
+                  {}
+              camera_rgb_frame:
+                camera_rgb_optical_frame:
+                  {}
+          world_1:
+            desk_1:
+              camera_link_1:
+                camera_depth_frame_1:
+                  camera_depth_optical_frame_1:
+                    {}
+                camera_rgb_frame_1:
+                  camera_rgb_optical_frame_1:
+                    {}
       Update Interval: 0
       Value: true
+    - Class: rviz_default_plugins/Image
+      Enabled: false
+      Max Value: 1
+      Median window: 5
+      Min Value: 0
+      Name: Image
+      Normalize Range: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /rgb/image_raw
+      Value: false
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -1040,43 +1140,43 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 1.0596086978912354
+      Distance: 5.2444963455200195
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.8090909719467163
-        Y: -0.055040765553712845
-        Z: 0.6789257526397705
+        X: 0.4214978814125061
+        Y: 1.4993313550949097
+        Z: 0.0888538658618927
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.160396695137024
-      Target Frame: <Fixed Frame>
+      Pitch: 0.5553958415985107
+      Target Frame: world
       Value: Orbit (rviz_default_plugins)
-      Yaw: 6.238569736480713
+      Yaw: 5.468568325042725
     Saved: ~
 Window Geometry:
   Displays:
-    collapsed: true
+    collapsed: false
   Height: 1016
   Help:
     collapsed: false
-  Hide Left Dock: true
-  Hide Right Dock: false
+  Hide Left Dock: false
+  Hide Right Dock: true
   Image:
-    collapsed: true
+    collapsed: false
   MotionPlanning:
-    collapsed: true
+    collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000001f30000039efc0200000009fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004100fffffffb000000100044006900730070006c006100790073000000003d00000152000000c900fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e006700000001950000017d0000017d00fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a0056006900650077007300000002fd000000b5000000a400fffffffb0000000a0049006d0061006700650000000318000000c30000002800fffffffb0000000c00430061006d0065007200610100000310000000cb0000000000000000fb0000000c00430061006d0065007200610000000310000000cb0000000000000000fb0000000a0049006d0061006700650100000310000000cb0000000000000000000003c00000039e00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000200000000000001f30000039efc0200000008fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000004100fffffffb000000100044006900730070006c006100790073010000003d000001c5000000c900fffffffb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e00670100000208000001d30000017d00fffffffb0000000800480065006c0070000000029a0000006e0000006e00fffffffb0000000a0049006d0061006700650000000293000001480000002800fffffffb0000000c00430061006d0065007200610100000310000000cb0000000000000000fb0000000c00430061006d0065007200610000000310000000cb0000000000000000fb0000000a0049006d0061006700650100000310000000cb000000000000000000000001000001cb0000039efc0200000001fb0000000a00560069006500770073000000003d0000039e000000a400ffffff000005870000039e00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
-    collapsed: false
-  Width: 960
-  X: 960
+    collapsed: true
+  Width: 1920
+  X: 0
   Y: 27
