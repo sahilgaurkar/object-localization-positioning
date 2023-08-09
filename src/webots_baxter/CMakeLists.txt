@@ -7,6 +7,7 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(webots_ros2_driver REQUIRED)
@@ -14,6 +15,7 @@ find_package(pluginlib REQUIRED)
 find_package(depth_image_proc REQUIRED)
 find_package(my_opencv_demo REQUIRED)
 find_package(pymoveit2 REQUIRED)
+find_package(opencv_interfaces REQUIRED)
 
 
 #Add Source files
@@ -43,6 +45,15 @@ rclcpp_components_register_node(
 
 # Install Launch files
 install(DIRECTORY launch config worlds proto resource DESTINATION share/${PROJECT_NAME})
+
+#Install Python Modules
+ament_python_install_package(${PROJECT_NAME})
+
+# Install Python executables
+install(PROGRAMS
+scripts/start.py
+scripts/transform_test.py
+DESTINATION lib/${PROJECT_NAME})
 
 
 

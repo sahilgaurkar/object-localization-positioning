@@ -122,6 +122,13 @@ def generate_launch_description():
                 executable='motion_test.py',
             )
         )
+
+        launch_description_nodes.append(
+            Node(
+                package='webots_baxter',
+                executable='transform_test.py',
+            )
+        )
     else:
         launch_description_nodes.append(LogInfo(msg='"moveit" package is not installed, \
                                                 please install it in order to run this demo.'))
