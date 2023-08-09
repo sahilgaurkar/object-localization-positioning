@@ -1,0 +1,12 @@
+#Request
+string object
+string action
+string arm
+geometry_msgs/Point position
+geometry_msgs/Quaternion orientation
+bool cartesian
+
+---
+#Response
+bool success
+string message
