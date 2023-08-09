@@ -21,6 +21,7 @@
   <depend>rethink_ee_description</depend>
   <depend>depth_image_proc</depend>
   <depend>my_opencv_demo</depend>
+  <depend>pymoveit2</depend>
   
   <exec_depend>rclpy</exec_depend>
   <exec_depend>builtin_interfaces</exec_depend>

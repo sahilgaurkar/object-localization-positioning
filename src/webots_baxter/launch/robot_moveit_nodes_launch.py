@@ -115,6 +115,13 @@ def generate_launch_description():
                 executable='block_detection.py',
             )
         )
+
+        launch_description_nodes.append(
+            Node(
+                package='pymoveit2',
+                executable='motion_test.py',
+            )
+        )
     else:
         launch_description_nodes.append(LogInfo(msg='"moveit" package is not installed, \
                                                 please install it in order to run this demo.'))

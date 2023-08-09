@@ -13,6 +13,7 @@ find_package(webots_ros2_driver REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(depth_image_proc REQUIRED)
 find_package(my_opencv_demo REQUIRED)
+find_package(pymoveit2 REQUIRED)
 
 
 #Add Source files
