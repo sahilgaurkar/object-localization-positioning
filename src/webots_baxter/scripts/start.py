@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 import sys
+import math
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Point, Quaternion, TransformStamped
 from tf2_ros import TransformException
 from tf2_ros.buffer import Buffer
 from tf2_ros.transform_listener import TransformListener
+from tf_transformations import euler_from_quaternion, quaternion_from_euler
 
 from opencv_interfaces.srv import BlockPose
 from opencv_interfaces.msg import ObjectList
@@ -134,6 +136,8 @@ def main():
     moveitreq.action = "pick"
     moveitreq.arm = "left"
     moveitreq.position = Point(x=task.dest_red.center.x, y=task.dest_red.center.y, z=task.dest_red.center.z + pre_pick_offset)
+    # pick_rot = pick_angle(task.dest_red.orientation)
+    # moveitreq.orientation = Quaternion(x=task.dest_red.orientation.x, y=task.dest_red.orientation.y, z=task.dest_red.orientation.z, w=task.dest_red.orientation.w)
     moveitreq.orientation = Quaternion(x=1.0, y=0.0, z=0.0, w=0.0)
     moveitreq.cartesian = False
     
@@ -189,6 +193,28 @@ def main():
 
 def moveit():
     pass
+
+def pick_angle(quat):
+    q_x = quat.x
+    q_y = quat.y
+    q_z = quat.z
+    q_w = quat.w
+
+    # print([q_x, q_y, q_z, q_w])
+
+    (roll, pitch, yaw) = euler_from_quaternion([q_x, q_y, q_z, q_w])
+
+    if math.degrees(roll) < 0 :
+        roll_d = math.degrees(roll)
+    else:
+        roll_d = math.degrees(roll)
+
+
+    # print(roll_d, math.degrees(pitch), math.degrees(yaw))
+    return 0
+
+
+
 
 
 if __name__ == "__main__":
