@@ -105,7 +105,7 @@ class PythonOpenCV(Node):
             t.transform.translation.y = float(pt3D[1])
             t.transform.translation.z = float(pt3D[0]) - 0.11
 
-            q = self.quaternion_from_euler(0, 0, (pi / 2) - theta)
+            q = quaternion_from_euler( 0 , (pi/2), (pi + pi/2 + theta), 'rxyz')
 
             t.transform.rotation.x = q[0]
             t.transform.rotation.y = q[1]

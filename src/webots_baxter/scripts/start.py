@@ -102,11 +102,140 @@ class MainTask(Node):
         if msg.name == "blue_1":
             self.dest_blue = msg
 
+    def goto_home(self, arm):
+        #Goto Home
+        req = TargetPose.Request()
+
+        req.arm = arm
+        req.orientation = Quaternion(x=1.0, y=0.0, z=0.0, w=0.0)
+        req.cartesian = False
+
+        if arm == 'left':
+            req.position = Point(x=0.6, y=0.6, z=1.1)
+        elif arm == 'right':
+            req.position = Point(x=0.6, y=-0.6, z=1.1)
+
+        self.send_motion_request(req)
+
+    def pick_object(self, arm, object ):
+        req = TargetPose.Request()
+        req.arm = arm
+
+        pre_pick_offset = 0.05
+        pick_offset = 0.008
+
+        # Move to Prepick
+        req.cartesian = False
+        if object == 'red':
+            req.position, req.orientation = self.get_pose(obj_msg=self.dest_red, z_offset=pre_pick_offset)
+        if object == 'green':
+            req.position, req.orientation = self.get_pose(obj_msg=self.dest_green, z_offset=pre_pick_offset)
+        if object == 'blue':
+            req.position, req.orientation = self.get_pose(obj_msg=self.dest_blue, z_offset=pre_pick_offset)
+        if object == 'yellow':
+            req.position, req.orientation = self.get_pose(obj_msg=self.dest_yellow, z_offset=pre_pick_offset)
+
+        prepick_req = req
+        self.send_motion_request(prepick_req)
+
+        #Open Gripper
+        self.send_gripper_request(arm=arm, action='open')
+
+        # Move to Pick
+        req.cartesian = True
+        if object == 'red':
+            req.position, req.orientation = self.get_pose(obj_msg=self.dest_red, z_offset=pick_offset)
+        if object == 'green':
+            req.position, req.orientation = self.get_pose(obj_msg=self.dest_green, z_offset=pick_offset)
+        if object == 'blue':
+            req.position, req.orientation = self.get_pose(obj_msg=self.dest_blue, z_offset=pick_offset)
+        if object == 'yellow':
+            req.position, req.orientation = self.get_pose(obj_msg=self.dest_yellow, z_offset=pick_offset)
+
+        self.send_motion_request(req)
+
+        #Close Gripper
+        self.send_gripper_request(arm=arm, action='close')
+
+        #Move to Prepick
+        if object == 'red':
+            req.position, req.orientation = self.get_pose(obj_msg=self.dest_red, z_offset=pre_pick_offset)
+        if object == 'green':
+            req.position, req.orientation = self.get_pose(obj_msg=self.dest_green, z_offset=pre_pick_offset)
+        if object == 'blue':
+            req.position, req.orientation = self.get_pose(obj_msg=self.dest_blue, z_offset=pre_pick_offset)
+        if object == 'yellow':
+            req.position, req.orientation = self.get_pose(obj_msg=self.dest_yellow, z_offset=pre_pick_offset)
+
+        prepick_req.cartesian = True
+        self.send_motion_request(prepick_req)
+
+    def place_object(self, arm, object ):
+        req = TargetPose.Request()
+        req.arm = arm
+
+        pre_place_offset = 0.05
+        place_offset = 0.008
+
+        # Move to Preplace
+        req.cartesian = False
+        if object == 'red':
+            req.position, req.orientation = self.get_pose(obj_msg=self.source_red, z_offset=pre_place_offset)
+        if object == 'green':
+            req.position, req.orientation = self.get_pose(obj_msg=self.source_green, z_offset=pre_place_offset)
+        if object == 'blue':
+            req.position, req.orientation = self.get_pose(obj_msg=self.source_blue, z_offset=pre_place_offset)
+        if object == 'yellow':
+            req.position, req.orientation = self.get_pose(obj_msg=self.source_yellow, z_offset=pre_place_offset)
+
+        preplace_req = req
+        self.send_motion_request(preplace_req)
+
+        # Move to Place
+        req.cartesian = True
+        if object == 'red':
+            req.position, req.orientation = self.get_pose(obj_msg=self.source_red, z_offset=place_offset)
+        if object == 'green':
+            req.position, req.orientation = self.get_pose(obj_msg=self.source_green, z_offset=place_offset)
+        if object == 'blue':
+            req.position, req.orientation = self.get_pose(obj_msg=self.source_blue, z_offset=place_offset)
+        if object == 'yellow':
+            req.position, req.orientation = self.get_pose(obj_msg=self.source_yellow, z_offset=place_offset)
+
+        self.send_motion_request(req)
+
+        #Close Gripper
+        self.send_gripper_request(arm=arm, action='open')
+
+        #Move to Preplace
+        if object == 'red':
+            req.position, req.orientation = self.get_pose(obj_msg=self.source_red, z_offset=pre_place_offset)
+        if object == 'green':
+            req.position, req.orientation = self.get_pose(obj_msg=self.source_green, z_offset=pre_place_offset)
+        if object == 'blue':
+            req.position, req.orientation = self.get_pose(obj_msg=self.source_blue, z_offset=pre_place_offset)
+        if object == 'yellow':
+            req.position, req.orientation = self.get_pose(obj_msg=self.source_yellow, z_offset=pre_place_offset)
+
+        preplace_req.cartesian = True
+        self.send_motion_request(preplace_req)
+
+        #Close Gripper
+        self.send_gripper_request(arm=arm, action='close')
+
+    def get_pose(self, obj_msg, z_offset):
+        position = Point(x=obj_msg.center.x, y=obj_msg.center.y, z=obj_msg.center.z + z_offset)
+        orientation = Quaternion(x=obj_msg.orientation.x, y=obj_msg.orientation.y, z=obj_msg.orientation.z, w=obj_msg.orientation.w)
+        return position, orientation
+
+
+
 
 def main():
     rclpy.init()
     task = MainTask()
 
+    # Camera Trigger
     response = None
     response = task.send_request(True)
     task.get_logger().info(
@@ -119,101 +248,29 @@ def main():
         f"Destination Captured Successfully: {response.capture_sucessfull}"
     )
 
-    response = None
-    response = task.send_gripper_request(arm='left', action='open')
+    #Goto Home
+    task.goto_home(arm='left')
+    task.goto_home(arm='right')
 
-    # if response != None:
-    #     response = None
-    #     response = task.send_gripper_request(arm='left', action='close')
 
     while task.red_s_captured == False or task.red_d_captured == False:
         rclpy.spin_once(task)
 
-    pre_pick_offset = 0.05
 
-    moveitreq = TargetPose.Request()
-    moveitreq.object = "red"
-    moveitreq.action = "pick"
-    moveitreq.arm = "left"
-    moveitreq.position = Point(x=task.dest_red.center.x, y=task.dest_red.center.y, z=task.dest_red.center.z + pre_pick_offset)
-    # pick_rot = pick_angle(task.dest_red.orientation)
-    moveitreq.orientation = Quaternion(x=task.dest_red.orientation.x, y=task.dest_red.orientation.y, z=task.dest_red.orientation.z, w=task.dest_red.orientation.w)
-    # moveitreq.orientation = Quaternion(x=1.0, y=0.0, z=0.0, w=0.0)
-    moveitreq.cartesian = False
-    
-    response = None
-    response = task.send_motion_request(moveitreq)
+    task.pick_object(arm='right', object='red')
 
-    # if response !=None:
-    #     moveitreq.position = Point(x=task.dest_red.center.x, y=task.dest_red.center.y, z=task.dest_red.center.z + 0.01)
-    #     moveitreq.cartesian = True
-    #     response = None
-    #     response = task.send_motion_request(moveitreq)
-    #     task._loop_rate.sleep()
+    #Goto Home
+    task.goto_home(arm='right')
 
-    # if response !=None:
-    #     response = None
-    #     response = task.send_gripper_request(arm='left', action='close')
-    #     task._loop_rate.sleep()
+    task.place_object(arm='right', object='red')
 
-    # if response !=None:
-    #     moveitreq.position = Point(x=task.dest_red.center.x, y=task.dest_red.center.y, z=task.dest_red.center.z + pre_pick_offset)
-    #     moveitreq.cartesian = True
-    #     response = None
-    #     response = task.send_motion_request(moveitreq)
-
-    # if response !=None:
-    #     moveitreq.position = Point(x=task.source_red.center.x, y=task.source_red.center.y, z=task.source_red.center.z + pre_pick_offset)
-    #     moveitreq.cartesian = False
-    #     response = None
-    #     response = task.send_motion_request(moveitreq)
-
-    # if response !=None:
-    #     moveitreq.position = Point(x=task.source_red.center.x, y=task.source_red.center.y, z=task.source_red.center.z + 0.01)
-    #     moveitreq.cartesian = True
-    #     response = None
-    #     response = task.send_motion_request(moveitreq)
-
-    # if response !=None:
-    #     response = None
-    #     response = task.send_gripper_request(arm='left', action='open')
-
-    # if response !=None:
-    #     moveitreq.position = Point(x=task.source_red.center.x, y=task.source_red.center.y, z=task.source_red.center.z + pre_pick_offset)
-    #     moveitreq.cartesian = True
-    #     response = None
-    #     response = task.send_motion_request(moveitreq)
+    #Goto Home
+    task.goto_home(arm='right')
 
 
-    rclpy.spin(task)
     task.destroy_node()
 
     rclpy.shutdown()
-
-
-def moveit():
-    pass
-
-def pick_angle(quat):
-    q_x = quat.x
-    q_y = quat.y
-    q_z = quat.z
-    q_w = quat.w
-
-    # print([q_x, q_y, q_z, q_w])
-
-    (roll, pitch, yaw) = euler_from_quaternion([q_x, q_y, q_z, q_w])
-
-    if math.degrees(roll) < 0 :
-        roll_d = math.degrees(roll)
-    else:
-        roll_d = math.degrees(roll)
-
-
-    # print(roll_d, math.degrees(pitch), math.degrees(yaw))
-    return 0
-
-
 
 
 
