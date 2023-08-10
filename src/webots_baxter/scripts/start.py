@@ -137,52 +137,52 @@ def main():
     moveitreq.arm = "left"
     moveitreq.position = Point(x=task.dest_red.center.x, y=task.dest_red.center.y, z=task.dest_red.center.z + pre_pick_offset)
     # pick_rot = pick_angle(task.dest_red.orientation)
-    # moveitreq.orientation = Quaternion(x=task.dest_red.orientation.x, y=task.dest_red.orientation.y, z=task.dest_red.orientation.z, w=task.dest_red.orientation.w)
-    moveitreq.orientation = Quaternion(x=1.0, y=0.0, z=0.0, w=0.0)
+    moveitreq.orientation = Quaternion(x=task.dest_red.orientation.x, y=task.dest_red.orientation.y, z=task.dest_red.orientation.z, w=task.dest_red.orientation.w)
+    # moveitreq.orientation = Quaternion(x=1.0, y=0.0, z=0.0, w=0.0)
     moveitreq.cartesian = False
     
     response = None
     response = task.send_motion_request(moveitreq)
 
-    if response !=None:
-        moveitreq.position = Point(x=task.dest_red.center.x, y=task.dest_red.center.y, z=task.dest_red.center.z + 0.01)
-        moveitreq.cartesian = True
-        response = None
-        response = task.send_motion_request(moveitreq)
-        task._loop_rate.sleep()
+    # if response !=None:
+    #     moveitreq.position = Point(x=task.dest_red.center.x, y=task.dest_red.center.y, z=task.dest_red.center.z + 0.01)
+    #     moveitreq.cartesian = True
+    #     response = None
+    #     response = task.send_motion_request(moveitreq)
+    #     task._loop_rate.sleep()
 
-    if response !=None:
-        response = None
-        response = task.send_gripper_request(arm='left', action='close')
-        task._loop_rate.sleep()
+    # if response !=None:
+    #     response = None
+    #     response = task.send_gripper_request(arm='left', action='close')
+    #     task._loop_rate.sleep()
 
-    if response !=None:
-        moveitreq.position = Point(x=task.dest_red.center.x, y=task.dest_red.center.y, z=task.dest_red.center.z + pre_pick_offset)
-        moveitreq.cartesian = True
-        response = None
-        response = task.send_motion_request(moveitreq)
+    # if response !=None:
+    #     moveitreq.position = Point(x=task.dest_red.center.x, y=task.dest_red.center.y, z=task.dest_red.center.z + pre_pick_offset)
+    #     moveitreq.cartesian = True
+    #     response = None
+    #     response = task.send_motion_request(moveitreq)
 
-    if response !=None:
-        moveitreq.position = Point(x=task.source_red.center.x, y=task.source_red.center.y, z=task.source_red.center.z + pre_pick_offset)
-        moveitreq.cartesian = False
-        response = None
-        response = task.send_motion_request(moveitreq)
+    # if response !=None:
+    #     moveitreq.position = Point(x=task.source_red.center.x, y=task.source_red.center.y, z=task.source_red.center.z + pre_pick_offset)
+    #     moveitreq.cartesian = False
+    #     response = None
+    #     response = task.send_motion_request(moveitreq)
 
-    if response !=None:
-        moveitreq.position = Point(x=task.source_red.center.x, y=task.source_red.center.y, z=task.source_red.center.z + 0.01)
-        moveitreq.cartesian = True
-        response = None
-        response = task.send_motion_request(moveitreq)
+    # if response !=None:
+    #     moveitreq.position = Point(x=task.source_red.center.x, y=task.source_red.center.y, z=task.source_red.center.z + 0.01)
+    #     moveitreq.cartesian = True
+    #     response = None
+    #     response = task.send_motion_request(moveitreq)
 
-    if response !=None:
-        response = None
-        response = task.send_gripper_request(arm='left', action='open')
+    # if response !=None:
+    #     response = None
+    #     response = task.send_gripper_request(arm='left', action='open')
 
-    if response !=None:
-        moveitreq.position = Point(x=task.source_red.center.x, y=task.source_red.center.y, z=task.source_red.center.z + pre_pick_offset)
-        moveitreq.cartesian = True
-        response = None
-        response = task.send_motion_request(moveitreq)
+    # if response !=None:
+    #     moveitreq.position = Point(x=task.source_red.center.x, y=task.source_red.center.y, z=task.source_red.center.z + pre_pick_offset)
+    #     moveitreq.cartesian = True
+    #     response = None
+    #     response = task.send_motion_request(moveitreq)
 
 
     rclpy.spin(task)

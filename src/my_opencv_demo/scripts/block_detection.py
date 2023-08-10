@@ -14,6 +14,7 @@ import numpy as np
 from geometry_msgs.msg import PoseStamped, TransformStamped, Point, Quaternion
 from opencv_interfaces.srv import CaptureSource
 from opencv_interfaces.msg import ObjectList
+from tf_transformations import euler_from_quaternion, quaternion_from_euler
 
 
 class PythonOpenCV(Node):
@@ -127,7 +128,9 @@ class PythonOpenCV(Node):
             t.transform.translation.y = float(pt3D[1])
             t.transform.translation.z = float(pt3D[0]) - 0.11
 
-            q = self.quaternion_from_euler(0, 0, (pi / 2) - theta)
+            
+
+            q = quaternion_from_euler( 0 , (pi/2), (pi + pi/2 + theta), 'rxyz')
 
             t.transform.rotation.x = q[0]
             t.transform.rotation.y = q[1]
@@ -138,26 +141,26 @@ class PythonOpenCV(Node):
         finally:
             self.tf_broadcaster.sendTransform(t)
 
-    def quaternion_from_euler(self, roll, pitch, yaw):
-        """
-        Converts euler roll, pitch, yaw to quaternion (w in last place)
-        quat = [x, y, z, w]
-        Bellow should be replaced when porting for ROS 2 Python tf_conversions is done.
-        """
-        cy = cos(yaw * 0.5)
-        sy = sin(yaw * 0.5)
-        cp = cos(pitch * 0.5)
-        sp = sin(pitch * 0.5)
-        cr = cos(roll * 0.5)
-        sr = sin(roll * 0.5)
+    # def quaternion_from_euler(self, roll, pitch, yaw):
+    #     """
+    #     Converts euler roll, pitch, yaw to quaternion (w in last place)
+    #     quat = [x, y, z, w]
+    #     Bellow should be replaced when porting for ROS 2 Python tf_conversions is done.
+    #     """
+    #     cy = cos(yaw * 0.5)
+    #     sy = sin(yaw * 0.5)
+    #     cp = cos(pitch * 0.5)
+    #     sp = sin(pitch * 0.5)
+    #     cr = cos(roll * 0.5)
+    #     sr = sin(roll * 0.5)
 
-        q = [0] * 4
-        q[0] = cy * cp * cr + sy * sp * sr
-        q[1] = cy * cp * sr - sy * sp * cr
-        q[2] = sy * cp * sr + cy * sp * cr
-        q[3] = sy * cp * cr - cy * sp * sr
+    #     q = [0] * 4
+    #     q[0] = cy * cp * cr + sy * sp * sr
+    #     q[1] = cy * cp * sr - sy * sp * cr
+    #     q[2] = sy * cp * sr + cy * sp * cr
+    #     q[3] = sy * cp * cr - cy * sp * sr
 
-        return q
+    #     return q
 
     def get_depth(self, pt2D, data):
         # This function retrieves a 3D from a 2D image coordinate
