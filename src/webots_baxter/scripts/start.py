@@ -264,7 +264,7 @@ class MainTask(Node):
         self.send_motion_request(preplace_req)
 
         #Close Gripper
-        self.send_gripper_request(arm=arm, action='close')
+        # self.send_gripper_request(arm=arm, action='close')
 
         # #Move to Safe Point
         # req.cartesian = False
@@ -280,7 +280,69 @@ class MainTask(Node):
         return position, orientation
 
 
+    def perform_task(self, object):
+        # Move object
 
+        if object == 'red':
+            dest_object = self.dest_red
+            source_object = self.source_red
+        if object == 'blue':
+            dest_object = self.dest_blue
+            source_object = self.source_blue
+        if object == 'green':
+            dest_object = self.dest_green
+            source_object = self.source_green
+        if object == 'yellow':
+            dest_object = self.dest_yellow
+            source_object = self.source_yellow
+
+        if dest_object.center.y >= 0:
+            pick_arm = 'left'
+        else:
+            pick_arm = 'right'
+
+        if source_object.center.y >= 0:
+            place_arm = 'left'
+        else:
+            place_arm = 'right'
+        
+        self.pick_object(arm=pick_arm, object=object)
+
+        if pick_arm != place_arm:
+            self.place_object(arm=pick_arm, object='transfer')
+            self.pick_object(arm=place_arm, object='transfer')
+
+        self.place_object(arm=place_arm, object=object)
+
+    def get_euler(self, obj_msg):
+        orientation = [obj_msg.orientation.x, obj_msg.orientation.y, obj_msg.orientation.z, obj_msg.orientation.w]
+        orientation = euler_from_quaternion(orientation, 'sxyz')
+        r = orientation[0] * (180/math.pi)
+        p = orientation[1] * (180/math.pi)
+        y = orientation[2] * (180/math.pi)
+        return [r, p, y]
+
+    def print_result(self, source_msg, dest_msg):
+        object = source_msg.name
+        x = abs(source_msg.center.x - dest_msg.center.x)
+        y = abs(source_msg.center.y - dest_msg.center.y)
+        z = abs(source_msg.center.z - dest_msg.center.z)
+
+        s_r, s_p, s_y = self.get_euler(source_msg)
+        d_r, d_p, d_y = self.get_euler(dest_msg)
+
+        # s_r, s_p, s_y = euler_from_quaternion()
+
+        theta = abs(abs(s_y) - abs(d_y))
+
+        # print(f'Object: {object}')
+        # print(f'X_error = {x}')
+        # print(f'Y_error = {y}')
+        # print(f'Z_error = {z}')
+
+        self.get_logger().info(
+            f'\nObject: {object}\nX_error = {x}\nY_error = {y}\nZ_error = {z}\nAngle_source = {theta}'
+        )
 
 
 def main():
@@ -313,24 +375,29 @@ def main():
                 break
 
 
-    # Move Red
-    if task.dest_red.center.y >= 0:
-        pick_arm = 'left'
-    else:
-        pick_arm = 'right'
+    for object in ['red', 'blue', 'green', 'yellow']:
+        task.perform_task(object)
+        task.dest_captured = [0, 0, 0, 0]
+        response = None
+        response = task.send_request_d(True)
+        task.get_logger().info(
+            f"Destination Captured Successfully: {response.capture_sucessfull}"
+        )
+        while 1:
+            rclpy.spin_once(task)
+            if (task.source_captured[0] and task.source_captured[1] and task.source_captured[2] and task.source_captured[3]):
+                if (task.dest_captured[0] and task.dest_captured[1] and task.dest_captured[2] and task.dest_captured[3]):
+                    print('Received all Objects')
+                    break
 
-    if task.source_red.center.y >= 0:
-        place_arm = 'left'
-    else:
-        place_arm = 'right'
-    
-    task.pick_object(arm=pick_arm, object='red')
 
-    if pick_arm != place_arm:
-        task.place_object(arm=pick_arm, object='transfer')
-        task.pick_object(arm=place_arm, object='transfer')
+    task.print_result(source_msg=task.source_red, dest_msg=task.dest_red)
+    task.print_result(source_msg=task.source_blue, dest_msg=task.dest_blue)
+    task.print_result(source_msg=task.source_green, dest_msg=task.dest_green)
+    task.print_result(source_msg=task.source_yellow, dest_msg=task.dest_yellow)
 
-    task.place_object(arm=place_arm, object='red')
+
+
 
     task.destroy_node()
 

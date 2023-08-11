@@ -116,12 +116,12 @@ def generate_launch_description():
             )
         )
 
-        launch_description_nodes.append(
-            Node(
-                package='pymoveit2',
-                executable='motion_test.py',
-            )
-        )
+        # launch_description_nodes.append(
+        #     Node(
+        #         package='pymoveit2',
+        #         executable='motion_test.py',
+        #     )
+        # )
 
         launch_description_nodes.append(
             Node(
