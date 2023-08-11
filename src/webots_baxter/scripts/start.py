@@ -22,8 +22,19 @@ class MainTask(Node):
 
         self._loop_rate = self.create_rate(10)
 
-        self.red_s_captured = False
-        self.red_d_captured = False
+        self.source_captured = [0, 0, 0, 0]
+        self.dest_captured = [0, 0, 0, 0]
+        print('init')
+
+        #Transfer Position
+        self.transfer_point = ObjectList()
+        self.transfer_point.center = Point(x= 0.5, y= 0.0, z=0.71)
+        self.transfer_point.orientation = Quaternion(x=1.0, y=0.0, z=0.0, w=0.0)
+
+        #Transfer Position
+        self.safe_point = ObjectList()
+        self.safe_point.center = Point(x= 0.5, y= 0.0, z=0.9)
+        self.safe_point.orientation = Quaternion(x=1.0, y=0.0, z=0.0, w=0.0)
 
         self.cli = self.create_client(CaptureSource, "get_source_block_pose")
 
@@ -83,24 +94,30 @@ class MainTask(Node):
     def source_callback(self, msg):
         if msg.name == "red":
             self.source_red = msg
-            self.red_s_captured = True
+            self.source_captured[0] = 1
         if msg.name == "green":
             self.source_green = msg
+            self.source_captured[1] = 1
         if msg.name == "yellow":
             self.source_yellow = msg
+            self.source_captured[2] = 1
         if msg.name == "blue":
             self.source_blue = msg
+            self.source_captured[3] = 1
 
     def destination_callback(self, msg):
         if msg.name == "red_1":
             self.dest_red = msg
-            self.red_d_captured = True
+            self.dest_captured[0] = 1
         if msg.name == "green_1":
             self.dest_green = msg
+            self.dest_captured[1] = 1
         if msg.name == "yellow_1":
             self.dest_yellow = msg
+            self.dest_captured[2] = 1
         if msg.name == "blue_1":
             self.dest_blue = msg
+            self.dest_captured[3] = 1
 
     def goto_home(self, arm):
         #Goto Home
@@ -121,8 +138,13 @@ class MainTask(Node):
         req = TargetPose.Request()
         req.arm = arm
 
-        pre_pick_offset = 0.05
+        pre_pick_offset = 0.2
         pick_offset = 0.008
+
+        # #Move to Safe Point
+        # req.cartesian = False
+        # req.position, req.orientation = self.get_pose(obj_msg=self.safe_point, z_offset=0)
+        # self.send_motion_request(req)
 
         # Move to Prepick
         req.cartesian = False
@@ -134,6 +156,8 @@ class MainTask(Node):
             req.position, req.orientation = self.get_pose(obj_msg=self.dest_blue, z_offset=pre_pick_offset)
         if object == 'yellow':
             req.position, req.orientation = self.get_pose(obj_msg=self.dest_yellow, z_offset=pre_pick_offset)
+        if object == 'transfer':
+            req.position, req.orientation = self.get_pose(obj_msg=self.transfer_point, z_offset=pre_pick_offset)
 
         prepick_req = req
         self.send_motion_request(prepick_req)
@@ -151,6 +175,8 @@ class MainTask(Node):
             req.position, req.orientation = self.get_pose(obj_msg=self.dest_blue, z_offset=pick_offset)
         if object == 'yellow':
             req.position, req.orientation = self.get_pose(obj_msg=self.dest_yellow, z_offset=pick_offset)
+        if object == 'transfer':
+            req.position, req.orientation = self.get_pose(obj_msg=self.transfer_point, z_offset=pick_offset)
 
         self.send_motion_request(req)
 
@@ -166,15 +192,25 @@ class MainTask(Node):
             req.position, req.orientation = self.get_pose(obj_msg=self.dest_blue, z_offset=pre_pick_offset)
         if object == 'yellow':
             req.position, req.orientation = self.get_pose(obj_msg=self.dest_yellow, z_offset=pre_pick_offset)
+        if object == 'transfer':
+            req.position, req.orientation = self.get_pose(obj_msg=self.transfer_point, z_offset=pre_pick_offset)
 
         prepick_req.cartesian = True
         self.send_motion_request(prepick_req)
+
+        # #Move to Safe Point
+        # req.cartesian = False
+        # req.position, req.orientation = self.get_pose(obj_msg=self.safe_point, z_offset=0)
+        # self.send_motion_request(req)
+
+        # #Goto Home
+        # self.goto_home(arm=arm)
 
     def place_object(self, arm, object ):
         req = TargetPose.Request()
         req.arm = arm
 
-        pre_place_offset = 0.05
+        pre_place_offset = 0.2
         place_offset = 0.008
 
         # Move to Preplace
@@ -187,6 +223,9 @@ class MainTask(Node):
             req.position, req.orientation = self.get_pose(obj_msg=self.source_blue, z_offset=pre_place_offset)
         if object == 'yellow':
             req.position, req.orientation = self.get_pose(obj_msg=self.source_yellow, z_offset=pre_place_offset)
+        if object == 'transfer':
+            req.position, req.orientation = self.get_pose(obj_msg=self.transfer_point, z_offset=pre_place_offset)
+
 
         preplace_req = req
         self.send_motion_request(preplace_req)
@@ -201,6 +240,8 @@ class MainTask(Node):
             req.position, req.orientation = self.get_pose(obj_msg=self.source_blue, z_offset=place_offset)
         if object == 'yellow':
             req.position, req.orientation = self.get_pose(obj_msg=self.source_yellow, z_offset=place_offset)
+        if object == 'transfer':
+            req.position, req.orientation = self.get_pose(obj_msg=self.transfer_point, z_offset=place_offset)
 
         self.send_motion_request(req)
 
@@ -216,6 +257,8 @@ class MainTask(Node):
             req.position, req.orientation = self.get_pose(obj_msg=self.source_blue, z_offset=pre_place_offset)
         if object == 'yellow':
             req.position, req.orientation = self.get_pose(obj_msg=self.source_yellow, z_offset=pre_place_offset)
+        if object == 'transfer':
+            req.position, req.orientation = self.get_pose(obj_msg=self.transfer_point, z_offset=pre_place_offset)
 
         preplace_req.cartesian = True
         self.send_motion_request(preplace_req)
@@ -223,10 +266,19 @@ class MainTask(Node):
         #Close Gripper
         self.send_gripper_request(arm=arm, action='close')
 
+        # #Move to Safe Point
+        # req.cartesian = False
+        # req.position, req.orientation = self.get_pose(obj_msg=self.safe_point, z_offset=0)
+        # self.send_motion_request(req)
+
+        #Goto Home
+        self.goto_home(arm=arm)
+
     def get_pose(self, obj_msg, z_offset):
         position = Point(x=obj_msg.center.x, y=obj_msg.center.y, z=obj_msg.center.z + z_offset)
         orientation = Quaternion(x=obj_msg.orientation.x, y=obj_msg.orientation.y, z=obj_msg.orientation.z, w=obj_msg.orientation.w)
         return position, orientation
+
 
 
 
@@ -253,26 +305,36 @@ def main():
     task.goto_home(arm='right')
 
 
-    while task.red_s_captured == False or task.red_d_captured == False:
+    while 1:
         rclpy.spin_once(task)
+        if (task.source_captured[0] and task.source_captured[1] and task.source_captured[2] and task.source_captured[3]):
+            if (task.dest_captured[0] and task.dest_captured[1] and task.dest_captured[2] and task.dest_captured[3]):
+                print('Received all Objects')
+                break
 
 
-    task.pick_object(arm='right', object='red')
+    # Move Red
+    if task.dest_red.center.y >= 0:
+        pick_arm = 'left'
+    else:
+        pick_arm = 'right'
 
-    #Goto Home
-    task.goto_home(arm='right')
+    if task.source_red.center.y >= 0:
+        place_arm = 'left'
+    else:
+        place_arm = 'right'
+    
+    task.pick_object(arm=pick_arm, object='red')
 
-    task.place_object(arm='right', object='red')
+    if pick_arm != place_arm:
+        task.place_object(arm=pick_arm, object='transfer')
+        task.pick_object(arm=place_arm, object='transfer')
 
-    #Goto Home
-    task.goto_home(arm='right')
-
+    task.place_object(arm=place_arm, object='red')
 
     task.destroy_node()
 
     rclpy.shutdown()
-
-
 
 if __name__ == "__main__":
     main()
