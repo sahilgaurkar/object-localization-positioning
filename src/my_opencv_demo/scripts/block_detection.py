@@ -141,27 +141,6 @@ class PythonOpenCV(Node):
         finally:
             self.tf_broadcaster.sendTransform(t)
 
-    # def quaternion_from_euler(self, roll, pitch, yaw):
-    #     """
-    #     Converts euler roll, pitch, yaw to quaternion (w in last place)
-    #     quat = [x, y, z, w]
-    #     Bellow should be replaced when porting for ROS 2 Python tf_conversions is done.
-    #     """
-    #     cy = cos(yaw * 0.5)
-    #     sy = sin(yaw * 0.5)
-    #     cp = cos(pitch * 0.5)
-    #     sp = sin(pitch * 0.5)
-    #     cr = cos(roll * 0.5)
-    #     sr = sin(roll * 0.5)
-
-    #     q = [0] * 4
-    #     q[0] = cy * cp * cr + sy * sp * sr
-    #     q[1] = cy * cp * sr - sy * sp * cr
-    #     q[2] = sy * cp * sr + cy * sp * cr
-    #     q[3] = sy * cp * cr - cy * sp * sr
-
-    #     return q
-
     def get_depth(self, pt2D, data):
         # This function retrieves a 3D from a 2D image coordinate
         if (pt2D[1] >= data.height) or (pt2D[0] >= data.width):

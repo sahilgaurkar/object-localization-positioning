@@ -8,6 +8,8 @@ from tf2_ros import TransformException
 from tf2_ros.buffer import Buffer
 from tf2_ros.transform_listener import TransformListener
 from tf_transformations import euler_from_quaternion, quaternion_from_euler
+import pandas as pd
+import openpyxl
 
 from opencv_interfaces.srv import BlockPose
 from opencv_interfaces.msg import ObjectList
@@ -19,6 +21,8 @@ from opencv_interfaces.srv import CaptureSource
 class MainTask(Node):
     def __init__(self):
         super().__init__("main_task_node")
+
+        self.pose_dict = {}
 
         self._loop_rate = self.create_rate(10)
 
@@ -104,6 +108,9 @@ class MainTask(Node):
         if msg.name == "blue":
             self.source_blue = msg
             self.source_captured[3] = 1
+
+        #Evaluation
+        self.pose_dict[f'{msg.name}_source'] = self.get_position(msg) + self.get_euler(msg)
 
     def destination_callback(self, msg):
         if msg.name == "red_1":
@@ -279,7 +286,6 @@ class MainTask(Node):
         orientation = Quaternion(x=obj_msg.orientation.x, y=obj_msg.orientation.y, z=obj_msg.orientation.z, w=obj_msg.orientation.w)
         return position, orientation
 
-
     def perform_task(self, object):
         # Move object
 
@@ -306,10 +312,10 @@ class MainTask(Node):
         else:
             place_arm = 'right'
 
-        [x, y, z, theta] = self.get_difference(source_msg=source_object, dest_msg=dest_object)
+        [x, y, z, roll, pitch, yaw] = self.get_difference(source_msg=source_object, dest_msg=dest_object)
         
         #Tolerance for moving pieces
-        if (x < 2 and y < 2 and z < 2 and theta < 2):
+        if (x < 1 and y < 1 and z < 1 and yaw < 1):
             self.get_logger().info(f"{object} object already in desired Position")
             return
         else:
@@ -330,22 +336,27 @@ class MainTask(Node):
         y = orientation[2] * (180/math.pi)
         return [r, p, y]
 
+    def get_position(self, obj_msg):
+        return [obj_msg.center.x, obj_msg.center.y, obj_msg.center.z]
+        
     def get_difference(self, source_msg, dest_msg):
         object = source_msg.name
-        x = abs(source_msg.center.x - dest_msg.center.x)
-        y = abs(source_msg.center.y - dest_msg.center.y)
-        z = abs(source_msg.center.z - dest_msg.center.z)
+        x = math.dist([source_msg.center.x], [dest_msg.center.x])
+        y = math.dist([source_msg.center.y], [dest_msg.center.y])
+        z = math.dist([source_msg.center.z], [dest_msg.center.z])
 
         s_r, s_p, s_y = self.get_euler(source_msg)
         d_r, d_p, d_y = self.get_euler(dest_msg)
 
-        theta = abs(abs(s_y) - abs(d_y))
+        roll = abs(abs(s_r) - abs(d_r))
+        pitch = abs(abs(s_p) - abs(d_p))
+        yaw = abs(abs(s_y) - abs(d_y))
 
         self.get_logger().info(
-            f'\nObject: {object}\nX_error = {x}\nY_error = {y}\nZ_error = {z}\nAngle_source = {theta}'
+            f'\nObject: {object}\nX_error = {x}\nY_error = {y}\nZ_error = {z}\nAngle_error = {yaw}'
         )
 
-        return [x, y, z, theta]
+        return [x, y, z, roll, pitch, yaw]
 
     def clear_msg(self):
         self.dest_red = None
@@ -372,6 +383,7 @@ def main():
         f"Destination Captured Successfully: {response.capture_sucessfull}"
     )
 
+
     #Goto Home
     task.goto_home(arm='left')
     task.goto_home(arm='right')
@@ -383,6 +395,12 @@ def main():
             if (task.dest_captured[0] and task.dest_captured[1] and task.dest_captured[2] and task.dest_captured[3]):
                 print('Received all Objects')
                 break
+
+    # For Evaluation
+    task.pose_dict[f'red_initial'] = task.get_position(task.dest_red) + task.get_euler(task.dest_red)
+    task.pose_dict[f'blue_initial'] = task.get_position(task.dest_blue) + task.get_euler(task.dest_blue)
+    task.pose_dict[f'green_initial'] = task.get_position(task.dest_green) + task.get_euler(task.dest_green)
+    task.pose_dict[f'yellow_initial'] = task.get_position(task.dest_yellow) + task.get_euler(task.dest_yellow)
 
 
     for object in ['red', 'blue', 'green', 'yellow']:
@@ -405,17 +423,52 @@ def main():
     task.goto_home(arm='left')
     task.goto_home(arm='right')
 
-    task.get_difference(source_msg=task.source_red, dest_msg=task.dest_red)
-    task.get_difference(source_msg=task.source_blue, dest_msg=task.dest_blue)
-    task.get_difference(source_msg=task.source_green, dest_msg=task.dest_green)
-    task.get_difference(source_msg=task.source_yellow, dest_msg=task.dest_yellow)
+    # For Evaluation
+    task.pose_dict[f'red_final'] = task.get_position(task.dest_red) + task.get_euler(task.dest_red)
+    task.pose_dict[f'blue_final'] = task.get_position(task.dest_blue) + task.get_euler(task.dest_blue)
+    task.pose_dict[f'green_final'] = task.get_position(task.dest_green) + task.get_euler(task.dest_green)
+    task.pose_dict[f'yellow_final'] = task.get_position(task.dest_yellow) + task.get_euler(task.dest_yellow)
 
+    task.pose_dict[f'red_error'] = task.get_difference(source_msg=task.source_red, dest_msg=task.dest_red)
+    task.pose_dict[f'blue_error'] = task.get_difference(source_msg=task.source_blue, dest_msg=task.dest_blue)
+    task.pose_dict[f'green_error'] = task.get_difference(source_msg=task.source_green, dest_msg=task.dest_green)
+    task.pose_dict[f'yellow_error'] = task.get_difference(source_msg=task.source_yellow, dest_msg=task.dest_yellow)
 
+    
+    # Save Results
+    df = get_dataframe(task.pose_dict)
+    home_dir = 'Evaluation'
+    test_number = '11'
+    file = f'Report_{test_number}.xlsx'
+    path = f'{home_dir}/{file}'
+
+    df.to_excel(path)
 
 
     task.destroy_node()
 
     rclpy.shutdown()
+
+
+def get_dataframe(dict):
+    result = pd.DataFrame()
+    for object in ['red', 'blue', 'green', 'yellow']:
+
+        s_pose = dict.get(f'{object}_source')
+        i_pose = dict.get(f'{object}_initial')
+        f_pose = dict.get(f'{object}_final')
+        e_pose = dict.get(f'{object}_error')
+
+        df = pd.DataFrame(
+            [s_pose, i_pose, f_pose, e_pose],
+            index=[f"Source {object}", f"Initial {object}", f"Final {object}", f"Error {object}"],
+            columns=["x (m)", "y (m)", "z (m)", "r (deg)", "p (deg)", "y (deg)"],
+        )
+        
+        result = pd.concat([result, df], ignore_index=False)
+            
+    return result
+
 
 if __name__ == "__main__":
     main()
