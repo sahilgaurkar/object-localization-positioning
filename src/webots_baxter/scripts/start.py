@@ -305,14 +305,22 @@ class MainTask(Node):
             place_arm = 'left'
         else:
             place_arm = 'right'
+
+        [x, y, z, theta] = self.get_difference(source_msg=source_object, dest_msg=dest_object)
         
-        self.pick_object(arm=pick_arm, object=object)
+        #Tolerance for moving pieces
+        if (x < 2 and y < 2 and z < 2 and theta < 2):
+            self.get_logger().info(f"{object} object already in desired Position")
+            return
+        else:
+            self.get_logger().info(f"Moving {object} object already to desired Position")
+            self.pick_object(arm=pick_arm, object=object)
 
-        if pick_arm != place_arm:
-            self.place_object(arm=pick_arm, object='transfer')
-            self.pick_object(arm=place_arm, object='transfer')
+            if pick_arm != place_arm:
+                self.place_object(arm=pick_arm, object='transfer')
+                self.pick_object(arm=place_arm, object='transfer')
 
-        self.place_object(arm=place_arm, object=object)
+            self.place_object(arm=place_arm, object=object)
 
     def get_euler(self, obj_msg):
         orientation = [obj_msg.orientation.x, obj_msg.orientation.y, obj_msg.orientation.z, obj_msg.orientation.w]
@@ -322,7 +330,7 @@ class MainTask(Node):
         y = orientation[2] * (180/math.pi)
         return [r, p, y]
 
-    def print_result(self, source_msg, dest_msg):
+    def get_difference(self, source_msg, dest_msg):
         object = source_msg.name
         x = abs(source_msg.center.x - dest_msg.center.x)
         y = abs(source_msg.center.y - dest_msg.center.y)
@@ -331,18 +339,20 @@ class MainTask(Node):
         s_r, s_p, s_y = self.get_euler(source_msg)
         d_r, d_p, d_y = self.get_euler(dest_msg)
 
-        # s_r, s_p, s_y = euler_from_quaternion()
-
         theta = abs(abs(s_y) - abs(d_y))
-
-        # print(f'Object: {object}')
-        # print(f'X_error = {x}')
-        # print(f'Y_error = {y}')
-        # print(f'Z_error = {z}')
 
         self.get_logger().info(
             f'\nObject: {object}\nX_error = {x}\nY_error = {y}\nZ_error = {z}\nAngle_source = {theta}'
         )
+
+        return [x, y, z, theta]
+
+    def clear_msg(self):
+        self.dest_red = None
+        self.dest_blue = None
+        self.dest_green = None
+        self.dest_yellow = None
+
 
 
 def main():
@@ -379,6 +389,7 @@ def main():
         task.perform_task(object)
         task.dest_captured = [0, 0, 0, 0]
         response = None
+        task.clear_msg()
         response = task.send_request_d(True)
         task.get_logger().info(
             f"Destination Captured Successfully: {response.capture_sucessfull}"
@@ -390,11 +401,14 @@ def main():
                     print('Received all Objects')
                     break
 
+    #Goto Home
+    task.goto_home(arm='left')
+    task.goto_home(arm='right')
 
-    task.print_result(source_msg=task.source_red, dest_msg=task.dest_red)
-    task.print_result(source_msg=task.source_blue, dest_msg=task.dest_blue)
-    task.print_result(source_msg=task.source_green, dest_msg=task.dest_green)
-    task.print_result(source_msg=task.source_yellow, dest_msg=task.dest_yellow)
+    task.get_difference(source_msg=task.source_red, dest_msg=task.dest_red)
+    task.get_difference(source_msg=task.source_blue, dest_msg=task.dest_blue)
+    task.get_difference(source_msg=task.source_green, dest_msg=task.dest_green)
+    task.get_difference(source_msg=task.source_yellow, dest_msg=task.dest_yellow)
 
 
 
