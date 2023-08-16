@@ -1,3 +1,6 @@
 [submodule "src/baxter-messages-ros2"]
 	path = src/baxter-messages-ros2
 	url = git@github.com:sahilgaurkar/baxter-messages-ros2.git
+[submodule "src/pymoveit2"]
+	path = src/pymoveit2
+	url = git@github.com:sahilgaurkar/pymoveit2.git

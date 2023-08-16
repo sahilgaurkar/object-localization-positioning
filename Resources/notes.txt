@@ -1,0 +1,86 @@
+
+Rotational Motors | Encoders:
+	
+head_pan | head_pan_sensor
+
+right_s0 | right_s0_sensor
+right_s1 | right_s1_sensor
+right_e0 | right_e0_sensor
+right_e1 | right_e1_sensor
+right_w0 | right_w0_sensor
+right_w1 | right_w1_sensor
+right_w2 | right_w2_sensor
+
+left_s0 | left_s0_sensor
+left_s1 | left_s1_sensor
+left_e0 | left_e0_sensor
+left_e1 | left_e1_sensor
+left_w0 | left_w0_sensor
+left_w1 | left_w1_sensor
+left_w2 | left_w2_sensor
+
+
+
+Linear Motor | Encoders:
+
+r_gripper_l_finger_joint | r_gripper_l_finger_joint_sensor
+r_gripper_r_finger_joint | r_gripper_r_finger_joint_sensor
+
+l_gripper_l_finger_joint | l_gripper_l_finger_joint_sensor
+l_gripper_r_finger_joint | l_gripper_r_finger_joint_sensor
+
+
+
+ros2 action send_goal /baxter_joint_trajectory_controller/follow_joint_trajectory control_msgs/action/FollowJointTrajectory "{
+  trajectory: {
+    joint_names: [right_s0, right_s1, right_e0, right_e1, right_w0, right_w1, right_w2, r_gripper_l_finger_joint, r_gripper_r_finger_joint, left_s0, left_s1, left_e0, left_e1, left_w0, left_w1, left_w2, r_gripper_l_finger_joint, r_gripper_r_finger_joint, head_pan],
+    points: [
+      { positions: [1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1], time_from_start: { sec: 5, nanosec: 0 } },
+      { positions: [-1, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, -1], time_from_start: { sec: 10, nanosec: 0 } },
+      { positions: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], time_from_start: { sec: 15, nanosec: 0 } }
+    ]
+  },
+  goal_tolerance: [
+    { name: right_s0, position: 0.01 },
+    { name: right_s1, position: 0.01 },
+    { name: right_e0, position: 0.01 },
+    { name: right_e1, position: 0.01 },
+    { name: right_w0, position: 0.01 },
+    { name: right_w1, position: 0.01 },
+    { name: right_w2, position: 0.01 },
+    { name: r_gripper_l_finger_joint, position: 0.01 },
+    { name: r_gripper_r_finger_joint, position: 0.01 },
+    { name: left_s0, position: 0.01 },
+    { name: left_s1, position: 0.01 },
+    { name: left_e0, position: 0.01 },
+    { name: left_e1, position: 0.01 },
+    { name: left_w0, position: 0.01 },
+    { name: left_w1, position: 0.01 },
+    { name: left_w2, position: 0.01 },
+    { name: l_gripper_l_finger_joint, position: 0.01 },
+    { name: l_gripper_r_finger_joint, position: 0.01 },
+    { name: head_pan, position: 0.01 }
+  ]
+}"
+
+
+ros2 action send_goal /baxter_joint_trajectory_controller/follow_joint_trajectory control_msgs/action/FollowJointTrajectory "{
+  trajectory: {
+    joint_names: [left_s0, left_s1, left_e0, left_e1, left_w0, left_w1, left_w2],
+    points: [
+      { positions: [1, 0, 0, 0, 0, 0, 0], time_from_start: { sec: 5, nanosec: 500 } },
+      { positions: [-1, 0, 0, 0, 0, 0, 0], time_from_start: { sec: 10, nanosec: 500 } },
+      { positions: [0, 0, 0, 0, 0, 0, 0], time_from_start: { sec: 15, nanosec: 500 } }
+    ]
+  },
+  goal_tolerance: [
+    { name: left_s0, position: 0.01 },
+    { name: left_s1, position: 0.01 },
+    { name: left_e0, position: 0.01 },
+    { name: left_e1, position: 0.01 },
+    { name: left_w0, position: 0.01 },
+    { name: left_w1, position: 0.01 },
+    { name: left_w2, position: 0.01 },
+  ]
+}"
+

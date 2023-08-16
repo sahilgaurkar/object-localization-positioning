@@ -1,0 +1,8 @@
+#Request
+string action
+string arm
+
+---
+#Response
+bool success
+string message

@@ -20,9 +20,10 @@ import os
 import pathlib
 import launch
 import xacro
-from launch_ros.actions import Node
+from launch_ros.actions import Node, ComposableNodeContainer
 from launch import LaunchDescription
 from launch.substitutions import Command
+from launch_ros.descriptions import ComposableNode
 from ament_index_python.packages import get_package_share_directory
 from webots_ros2_driver.urdf_spawner import URDFSpawner, get_webots_driver_node
 from webots_ros2_driver.webots_controller import WebotsController
@@ -32,26 +33,20 @@ PACKAGE_NAME = "webots_baxter"
 
 
 def generate_launch_description():
-
-
     package_dir = get_package_share_directory(PACKAGE_NAME)
     ros2_control_params = os.path.join(
         package_dir, "config", "ros2_control_config.yaml"
     )
 
-    baxter_xacro_path = os.path.join(package_dir, "resource", "urdf", "baxter_webots.xacro")
+    baxter_xacro_path = os.path.join(
+        package_dir, "resource", "baxter", "urdf", "baxter_webots.xacro"
+    )
     baxter_xacro_description = xacro.process_file(baxter_xacro_path).toxml()
 
 
     #     # Write the XML string to a file
     # with open('output.urdf', 'w') as f:
     #     f.write(baxter_xacro_description)
-
-
-    # baxter_urdf_path = os.path.join("output.urdf")
-    # with open(baxter_urdf_path, 'r') as infp:
-    #     robot_desc = infp.read()
-    
 
     spawn_URDF_baxter = URDFSpawner(
         name="Baxter",
@@ -80,9 +75,7 @@ def generate_launch_description():
         executable="spawner",
         output="screen",
         prefix=controller_manager_prefix,
-        arguments=[
-            "baxter_joint_trajectory_controller"]
-        + controller_manager_timeout,
+        arguments=["baxter_joint_trajectory_controller"] + controller_manager_timeout,
     )
 
     joint_state_broadcaster_spawner = Node(
@@ -90,16 +83,18 @@ def generate_launch_description():
         executable="spawner",
         output="screen",
         prefix=controller_manager_prefix,
-        arguments=["baxter_joint_state_broadcaster"]
-        + controller_manager_timeout,
+        arguments=["baxter_joint_state_broadcaster"] + controller_manager_timeout,
     )
 
     robot_state_publisher = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
         output="screen",
-        parameters=[{"use_sim_time": True, "robot_description": baxter_xacro_description}]
+        parameters=[
+            {"use_sim_time": True, "robot_description": baxter_xacro_description}
+        ],
     )
+
 
     return LaunchDescription(
         [

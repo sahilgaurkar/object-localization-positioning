@@ -19,6 +19,7 @@
 import os
 import pathlib
 import yaml
+import xacro
 from launch.actions import IncludeLaunchDescription, LogInfo
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch import LaunchDescription
@@ -33,22 +34,29 @@ def generate_launch_description():
     launch_description_nodes = []
     package_dir = get_package_share_directory(PACKAGE_NAME)
 
+    baxter_xacro_path = os.path.join(package_dir, "resource", "baxter", "urdf", "baxter_webots.xacro")
+    baxter_xacro_description = xacro.process_file(baxter_xacro_path).toxml()
+
     def load_file(filename):
-        return pathlib.Path(os.path.join(package_dir, 'resource', filename)).read_text()
+        return pathlib.Path(os.path.join(package_dir, 'resource', filename))
+    
+    def load_srdf(filename):
+        path = pathlib.Path(os.path.join(package_dir, 'config', 'srdf', filename))
+        return xacro.process_file(path).toxml()
 
     def load_yaml(filename):
-        return yaml.safe_load(load_file(filename))
+        return yaml.safe_load(pathlib.Path(os.path.join(package_dir, 'config', filename)).read_text())
 
     # Check if moveit is installed
     if 'moveit' in get_packages_with_prefixes():
         # Configuration
-        description = {'robot_description': load_file('baxter.urdf')}
-        description_semantic = {'robot_description_semantic': load_file('baxter.srdf')}
+        description = {'robot_description': baxter_xacro_description}
+        description_semantic = {'robot_description_semantic': load_srdf('baxter.srdf.xacro')}
         description_kinematics = {'robot_description_kinematics': load_yaml('moveit_kinematics.yaml')}
         sim_time = {'use_sim_time': True}
 
         # Rviz node
-        rviz_config_file = os.path.join(package_dir, 'resource', 'moveit_visualization.rviz')
+        rviz_config_file = os.path.join(package_dir, 'config', 'moveit_visualization.rviz')
 
         launch_description_nodes.append(
             Node(
@@ -92,6 +100,33 @@ def generate_launch_description():
         launch_description_nodes.append(
             IncludeLaunchDescription(
                 PythonLaunchDescriptionSource(os.path.join(package_dir, 'launch', 'robot_nodes_launch.py'))
+            )
+        )
+
+        launch_description_nodes.append(
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(os.path.join(package_dir, 'launch', 'robot_world_launch.py'))
+            )
+        )
+
+        launch_description_nodes.append(
+            Node(
+                package='my_opencv_demo',
+                executable='block_detection.py',
+            )
+        )
+
+        # launch_description_nodes.append(
+        #     Node(
+        #         package='pymoveit2',
+        #         executable='motion_test.py',
+        #     )
+        # )
+
+        launch_description_nodes.append(
+            Node(
+                package='webots_baxter',
+                executable='transform_test.py',
             )
         )
     else:

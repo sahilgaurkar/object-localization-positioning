@@ -2,19 +2,10 @@ controller_names:
   - baxter_joint_trajectory_controller
 
 baxter_joint_trajectory_controller:
-  action_ns: follow_joint_trajectory
   type: FollowJointTrajectory
+  action_ns: follow_joint_trajectory
   default: true
   joints:
-    - right_s0
-    - right_s1
-    - right_e0
-    - right_e1
-    - right_w0
-    - right_w1
-    - right_w2
-    - r_gripper_l_finger_joint
-    - r_gripper_r_finger_joint
     - left_s0
     - left_s1
     - left_e0
@@ -22,5 +13,15 @@ baxter_joint_trajectory_controller:
     - left_w0
     - left_w1
     - left_w2
+    - right_s0
+    - right_s1
+    - right_e0
+    - right_e1
+    - right_w0
+    - right_w1
+    - right_w2
+    - head_pan
     - l_gripper_l_finger_joint
     - l_gripper_r_finger_joint
+    - r_gripper_l_finger_joint
+    - r_gripper_r_finger_joint

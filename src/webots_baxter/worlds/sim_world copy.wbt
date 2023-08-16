@@ -26,38 +26,31 @@ RectangleArena {
   floorTileSize 1 1
 }
 Desk {
-  translation 0.5 0 0
+  translation 0.8 0 0
 }
-lego_2x4 {
-  translation 0.6 0.2 0.721
+Robot {
+  children [
+    Kinect {
+      translation 0.8 0 1.5
+      rotation 0 0 1 1.5708
+      foot FALSE
+    }
+  ]
+  name "Vision"
+  controller "<extern>"
 }
-lego_2x3 {
-  translation 0.6 0.1 0.721
+lego_2x2 {
+  translation 0.8 0.2 0.721
+}
+lego_2x2_roof {
+  translation 0.8 0.1 0.721
   baseColor 0 1 0
 }
 lego_2x3 {
-  translation 0.6 -0.2 0.721
+  translation 0.8 -0.2 0.721
   baseColor 0 0 1
 }
 lego_2x4 {
-  translation 0.6 -0.1 0.721
-  baseColor 1 1 0
-}
-Desk {
-  translation 0.5 3 0
-}
-lego_2x4 {
-  translation 0.6 3.2 0.721
-}
-lego_2x3 {
-  translation 0.6 3.1 0.721
-  baseColor 0 1 0
-}
-lego_2x3 {
-  translation 0.6 2.8 0.721
-  baseColor 0 0 1
-}
-lego_2x4 {
-  translation 0.6 2.9 0.721
+  translation 0.8 -0.1 0.721
   baseColor 1 1 0
 }

@@ -8,8 +8,10 @@
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_python</buildtool_depend>
 
   <depend>rclcpp</depend>
+  <depend>rclpy</depend>
   <depend>rclcpp_components</depend>
   <depend>rclcpp_action</depend>
   <depend>std_msgs</depend>
@@ -19,8 +21,11 @@
   <depend>pluginlib</depend>
   <depend>baxter_description</depend>
   <depend>rethink_ee_description</depend>
+  <depend>depth_image_proc</depend>
+  <depend>my_opencv_demo</depend>
+  <depend>pymoveit2</depend>
+  <depend>opencv_interfaces</depend>
   
-  <exec_depend>rclpy</exec_depend>
   <exec_depend>builtin_interfaces</exec_depend>
   <exec_depend>control_msgs</exec_depend>
   <exec_depend>trajectory_msgs</exec_depend>
