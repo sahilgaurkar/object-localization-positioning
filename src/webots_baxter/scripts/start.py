@@ -10,6 +10,7 @@ from tf2_ros.transform_listener import TransformListener
 from tf_transformations import euler_from_quaternion, quaternion_from_euler
 import pandas as pd
 import openpyxl
+from controller import Supervisor, Robot
 
 from opencv_interfaces.srv import BlockPose
 from opencv_interfaces.msg import ObjectList
@@ -28,7 +29,6 @@ class MainTask(Node):
 
         self.source_captured = [0, 0, 0, 0]
         self.dest_captured = [0, 0, 0, 0]
-        print('init')
 
         #Transfer Position
         self.transfer_point = ObjectList()
@@ -315,7 +315,7 @@ class MainTask(Node):
         [x, y, z, roll, pitch, yaw] = self.get_difference(source_msg=source_object, dest_msg=dest_object)
         
         #Tolerance for moving pieces
-        if (x < 1 and y < 1 and z < 1 and yaw < 1):
+        if (x < 0.001 and y < 0.001 and yaw < 1):
             self.get_logger().info(f"{object} object already in desired Position")
             return
         else:
@@ -369,6 +369,12 @@ class MainTask(Node):
 def main():
     rclpy.init()
     task = MainTask()
+
+    # desk_node = task.webots_supervisor.getFromDef('desk') 
+    # translation_field = desk_node.getField('translation')
+    # task.get_logger().info(
+    #     f"Desk Translation field: {translation_field}"
+    # )
 
     # Camera Trigger
     response = None
@@ -438,7 +444,7 @@ def main():
     # Save Results
     df = get_dataframe(task.pose_dict)
     home_dir = 'Evaluation'
-    test_number = '11'
+    test_number = '35'
     file = f'Report_{test_number}.xlsx'
     path = f'{home_dir}/{file}'
 
