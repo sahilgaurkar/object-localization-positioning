@@ -1,4 +1,4 @@
-# puzzle-solver-robot
+# ROS 2 Object Localization and Positioning
 
 
 Dependencies:
