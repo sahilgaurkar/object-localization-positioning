@@ -9,7 +9,7 @@ Dependencies:
 
 
 
-To Execute:
+Steps to use the Software Stack:
 
 Source the setup.bash for all terminals
 
