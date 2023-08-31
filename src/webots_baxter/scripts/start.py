@@ -341,16 +341,25 @@ class MainTask(Node):
         
     def get_difference(self, source_msg, dest_msg):
         object = source_msg.name
-        x = math.dist([source_msg.center.x], [dest_msg.center.x])
-        y = math.dist([source_msg.center.y], [dest_msg.center.y])
-        z = math.dist([source_msg.center.z], [dest_msg.center.z])
+        # x = math.dist([source_msg.center.x], [dest_msg.center.x])
+        # y = math.dist([source_msg.center.y], [dest_msg.center.y])
+        # z = math.dist([source_msg.center.z], [dest_msg.center.z])
+
+        x = source_msg.center.x - dest_msg.center.x
+        y = source_msg.center.y - dest_msg.center.y
+        z = source_msg.center.z - dest_msg.center.z
+
 
         s_r, s_p, s_y = self.get_euler(source_msg)
         d_r, d_p, d_y = self.get_euler(dest_msg)
 
-        roll = abs(abs(s_r) - abs(d_r))
-        pitch = abs(abs(s_p) - abs(d_p))
-        yaw = abs(abs(s_y) - abs(d_y))
+        # roll = abs(abs(s_r) - abs(d_r))
+        # pitch = abs(abs(s_p) - abs(d_p))
+        # yaw = abs(abs(s_y) - abs(d_y))
+
+        roll = d_r - s_r
+        pitch = d_p - s_p
+        yaw = d_y - s_y
 
         self.get_logger().info(
             f'\nObject: {object}\nX_error = {x}\nY_error = {y}\nZ_error = {z}\nAngle_error = {yaw}'
@@ -369,7 +378,7 @@ class MainTask(Node):
 def main():
     rclpy.init()
     task = MainTask()
-
+ 
     # desk_node = task.webots_supervisor.getFromDef('desk') 
     # translation_field = desk_node.getField('translation')
     # task.get_logger().info(
@@ -444,7 +453,7 @@ def main():
     # Save Results
     df = get_dataframe(task.pose_dict)
     home_dir = 'Evaluation'
-    test_number = '100'
+    test_number = '1'
     file = f'Report_{test_number}.xlsx'
     path = f'{home_dir}/{file}'
 

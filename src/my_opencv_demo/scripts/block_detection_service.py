@@ -159,7 +159,7 @@ class PythonOpenCVService(Node):
         mask = masks[0][0] + masks[1][0] + masks[2][0]+ masks[3][0]
 
         color_mask = mask
-        label = 'Step-4'
+        
 
         # set my output img to zero everywhere except my mask
         img_masked = self.img_raw.copy()
@@ -175,10 +175,22 @@ class PythonOpenCVService(Node):
             # print ("Perimeter: " + str(perimeter))
             if perimeter >= 90 and perimeter <= 350:
                 contour.append(c)
-                break
+                # break
 
-        cv2.imshow(f'{label}', self.img_raw)
-        cv2.imwrite(f'{label}.jpg', self.img_raw)
+        out_img = self.img_raw.copy()
+        out_ellipse = []
+        for c in contour:
+            (x, y), (MA, ma), temp = cv2.fitEllipse(c)
+            angle = self.getOrientation(c, self.img_raw.copy())
+            out_ellipse.append(cv2.fitEllipse(c))
+
+        
+        for each_ellipse in out_ellipse:
+            cv2.ellipse(out_img, each_ellipse, (255, 0, 0), 2)
+
+        label = 'shadow_masked'
+        cv2.imshow(f'{label}', img_masked)
+        cv2.imwrite(f'{label}.jpg', img_masked)
         cv2.waitKey(3)
 
 
@@ -211,7 +223,65 @@ class PythonOpenCVService(Node):
         )
         ## [visualization1]
 
+        # label = 'Distorted Angle'
+        # cv2.imshow(f'{label}', img)
+        # cv2.imwrite(f'{label}.jpg', img)
 
+    def getOrientation(self, pts, img):
+        ## [pca]
+        # Construct a buffer used by the pca analysis
+        sz = len(pts)
+        data_pts = np.empty((sz, 2), dtype=np.float64)
+        for i in range(data_pts.shape[0]):
+            data_pts[i, 0] = pts[i, 0, 0]
+            data_pts[i, 1] = pts[i, 0, 1]
+
+        # Perform PCA analysis
+        mean = np.empty((0))
+        mean, eigenvectors, eigenvalues = cv2.PCACompute2(data_pts, mean)
+
+        # Store the center of the object
+        cntr = (int(mean[0, 0]), int(mean[0, 1]))
+        ## [pca]
+
+        ## [visualization]
+        # Draw the principal components
+        cv2.circle(img, cntr, 3, (255, 0, 255), 2)
+        p1 = (
+            cntr[0] + 0.02 * eigenvectors[0, 0] * eigenvalues[0, 0],
+            cntr[1] + 0.02 * eigenvectors[0, 1] * eigenvalues[0, 0],
+        )
+        p2 = (
+            cntr[0] - 0.02 * eigenvectors[1, 0] * eigenvalues[1, 0],
+            cntr[1] - 0.02 * eigenvectors[1, 1] * eigenvalues[1, 0],
+        )
+        self.drawAxis(img, cntr, p1, (255, 255, 0), 10)
+        self.drawAxis(img, cntr, p2, (0, 0, 255), 10)
+
+        angle = atan2(eigenvectors[0, 1], eigenvectors[0, 0])  # orientation in radians
+        ## [visualization]
+
+        # Label with the rotation angle
+        label = "  Rotation Angle: " + str(-int(np.rad2deg(angle)) - 90) + " degrees"
+        textbox = cv2.rectangle(
+            img,
+            (cntr[0], cntr[1] - 25),
+            (cntr[0] + 250, cntr[1] + 10),
+            (255, 255, 255),
+            -1,
+        )
+        cv2.putText(
+            img,
+            label,
+            (cntr[0], cntr[1]),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.5,
+            (0, 0, 0),
+            1,
+            cv2.LINE_AA,
+        )
+
+        return angle
 
 
 def main():
