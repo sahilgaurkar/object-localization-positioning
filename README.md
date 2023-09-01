@@ -19,4 +19,4 @@ Source the setup.bash for all terminals
 
 3. Terminal 2: `ros2 launch webots_baxter start_launch.py`
 
-
+Release : [![DOI](https://zenodo.org/badge/660664645.svg)](https://zenodo.org/badge/latestdoi/660664645)
